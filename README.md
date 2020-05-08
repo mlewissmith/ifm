@@ -45,10 +45,10 @@ down to:
 Hacking
 -------
 
-IFM is hosted at [Bitbucket](http://www.bitbucket.org/zondo/ifm), using
-[Mercurial](http://mercurial.selenic.com), and developed on Linux.  You're
-free to hack on it to your heart's content.  If you have just done a `hg
-clone` to get a copy, you'll need some extra tools installed to build it:
+IFM is hosted at [Sourcehut](https://hg.sr.ht/~zondo/ifm), using
+[Mercurial](http://mercurial-scm.org), and developed on Linux.  You're free
+to hack on it to your heart's content.  If you have just done a `hg clone`
+to get a copy, you'll need some extra tools installed to build it:
 
 * GNU `make`
 * The GNU autotools: `autoconf`, `automake`
