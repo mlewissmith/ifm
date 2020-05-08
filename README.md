@@ -73,9 +73,3 @@ Feel free to send comments, bug reports, suggestions, etc. to me.  I am
 Glenn Hutchings (<zondo42@gmail.com>).
 
 Happy mapping!
-
-<!--
-Local Variables:
-mode: markdown
-End:
---!>

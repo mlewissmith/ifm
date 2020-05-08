@@ -6,9 +6,12 @@ ACLOCAL_AMFLAGS = -I etc
 
 SUBDIRS = $(subdirs) src lib doc man progs tests win32
 
-EXTRA_DIST = COPYING.DOC TO-DO
+EXTRA_DIST = README COPYING.DOC TO-DO
 
 EXTRA_DIRS = etc contrib
+
+README: README.md
+	cp $< $@
 
 dist-hook: dist-extra dist-config dist-header dist-touch dist-cleanup
 
