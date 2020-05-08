@@ -8,8 +8,6 @@ HDRS = svg-attr.h svg-file.h svg-object.h svg-util.h svg.h
 
 libsvg_a_SOURCES = $(SRCS) $(HDRS)
 
-EXTRA_DIST = svg-format.txt
-
 EXTRA_PROGRAMS = testsvg
 
 AM_CFLAGS = $(LOCAL_CFLAGS)
