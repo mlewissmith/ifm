@@ -1,0 +1,28 @@
+image: ubuntu/latest
+
+packages:
+  - autoconf
+  - automake
+  - bison
+  - flex
+  - help2man
+
+sources:
+  - hg+https://hg.sr.ht/~zondo/ifm
+
+tasks:
+  - config: |
+      cd ifm
+      sh autogen.sh
+      ./configure
+  - build: |
+      cd ifm
+      make -j2
+  - test: |
+      cd ifm/tests
+      make check
+
+triggers:
+  - condition: failure
+    action: email
+    to: zondo42@gmail.com
