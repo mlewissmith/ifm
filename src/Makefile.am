@@ -36,24 +36,22 @@ IFMDEFS = -DIFMLIB=$(pkgdatadir)
 endif
 
 AM_CFLAGS = $(LOCAL_CFLAGS)
-AM_CPPFLAGS = -I$(FIG_SRC) -I$(VARS_SRC) $(IFMDEFS) -DHGVERSION="\"$(HGVERSION)\""
+AM_CPPFLAGS = -I$(FIG_SRC) -I$(VARS_SRC) $(IFMDEFS) -DVCVERSION="\"$(VCVERSION)\""
 
 $(bin_PROGRAMS): $(VARS_BIN)/libvars.a $(FIG_BIN)/libfig.a
 
 ifm-parse.h: ifm-parse.c
 
-# Mercurial version stamp.
+# Version control version stamp.
 
-HGFILE = ifm-main.o
-HGCMD = hg -R $(top_srcdir) parents --template 'hgid: {node|short}'
-GREPCMD = grep node $(top_srcdir)/.hg_archival.txt
-HGVERSION := $(shell $(HGCMD) 2> /dev/null || $(GREPCMD) 2> /dev/null || true)
+VCFILE = ifm-main.o
+VCVERSION := $(shell $(top_srcdir)/etc/vctag)
 
-$(HGFILE): stamp-hg
+$(VCFILE): stamp-vc
 
-stamp-hg: dummy
+stamp-vc: dummy
 	@ test -f $@ || touch $@
-	@ echo $(HGVERSION) | cmp -s $@ - || echo $(HGVERSION) > $@
+	@ echo $(VCVERSION) | cmp -s $@ - || echo $(VCVERSION) > $@
 
 dummy: ;
 

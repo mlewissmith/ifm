@@ -1,0 +1,29 @@
+#! /bin/bash
+
+# Print version control tag for a repo.
+
+prog=$(basename $0)
+cd ${1:-.}
+
+while :; do
+    thisdir=$(pwd)
+
+    if test -d $thisdir/.git; then
+        # Git
+        desc="git --git-dir $thisdir/.git describe --dirty"
+        $desc --tags 2>/dev/null || $desc --always
+        exit 0
+    elif test -d $thisdir/.hg; then
+        # Mercurial
+        template="{latesttag}-{latesttagdistance}-hg{node|short}\n"
+        hg -R $thisdir parents --template "$template"
+        exit 0
+    else
+        # Not found -- try parent dir
+        cd ..
+        test $(pwd) != $thisdir || break
+    fi
+done
+
+echo "$prog: error: no version control detected" >&2
+exit 99

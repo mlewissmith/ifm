@@ -590,9 +590,8 @@ do_output(int type, char *fmt, ...)
 char *
 get_version(void)
 {
-#ifdef HGVERSION
-    V_BUF_DECL;
-    return V_BUF_SETF("%s [%s]", VERSION, HGVERSION);
+#ifdef VCVERSION
+    return VCVERSION;
 #else
     return VERSION;
 #endif
