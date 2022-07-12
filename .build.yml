@@ -8,7 +8,7 @@ packages:
   - help2man
 
 sources:
-  - hg+https://hg.sr.ht/~zondo/ifm
+  - https://git.sr.ht/~zondo/ifm
 
 tasks:
   - config: |

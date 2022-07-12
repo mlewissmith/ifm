@@ -1,9 +1,6 @@
 Version 5.5 (unreleased)
 ========================
 
-* IFM is now hosted at Sourcehut_.  Your loss for dropping Mercurial
-  support, Bitbucket.
-
 * New output format: YAML.
 
 * New output for text format: maps.
@@ -24,8 +21,6 @@ Version 5.4 (13 Feb 2009)
 
 Version 5.3 (14 Nov 2008)
 =========================
-
-* IFM is now hosted at Bitbucket_.
 
 * New ``them`` keyword, which refers to the list of items mentioned in the
   current statement.
@@ -66,8 +61,6 @@ Version 5.3 (14 Nov 2008)
 .. _Pygments: http://pygments.org
 .. _Python: http://www.python.org
 .. _DSC: http://www-cdf.fnal.gov/offline/PostScript/AdobePS.html
-.. _Bitbucket: http://www.bitbucket.org/zondo/ifm
-.. _Sourcehut: https://hg.sr.ht/~zondo/ifm
 
 Version 5.2 (7 Sep 2006)
 ========================
