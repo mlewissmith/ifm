@@ -1,7 +1,7 @@
 IFM: Interactive Fiction Mapper
 ===============================
 
-[![builds.sr.ht status](https://builds.sr.ht/~zondo/ifm/.build.yml.svg)](https://builds.sr.ht/~zondo/ifm/.build.yml?)
+[![builds.sr.ht status](https://builds.sr.ht/~zondo/ifm/commits/master/.build.yml.svg)](https://builds.sr.ht/~zondo/ifm/commits/master/.build.yml?)
 
 About IFM
 ---------
