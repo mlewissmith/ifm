@@ -69,7 +69,7 @@ void *
 v_read(FILE *fp)
 {
     static vhash *seen = NULL;
-    char *code, idbuf[10];
+    char *code, idbuf[30];
     static int depth = 0;
     void *data = NULL;
     vtype *t;
@@ -648,7 +648,7 @@ v_write(void *ptr, FILE *fp)
     static int count = 0;
     static int depth = 0;
     int id, zero = 0;
-    vtype *t;
+    vtype *t = NULL;
 
     /* Get pointer type */
     if (ptr != NULL) {

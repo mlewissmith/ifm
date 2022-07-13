@@ -437,7 +437,7 @@ vb_print(vbuffer *b, FILE *fp)
     if (!binary) {
         v_indent(fp);
 
-        for (i = 0; i < numchars; i++) {
+        for (i = 0, c = '\0'; i < numchars; i++) {
             c = b->buf[i];
             if (c == '\n') {
                 fputc('\n', fp);

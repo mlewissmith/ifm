@@ -73,7 +73,7 @@ connect_rooms(void)
     int oneway, len, goflag, dir, num = 0, uselen = 0;
     vhash *room, *link, *join, *reach, *from, *to;
     vlist *cmdfrom, *cmdto, *list;
-    char *cmd, id[10];
+    char *cmd, id[20];
     viter iter;
 
     solver_msg(0, "Connecting rooms...");

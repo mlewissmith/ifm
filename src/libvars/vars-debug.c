@@ -345,7 +345,7 @@ void
 v_memchange(int type, void *ptr, void *oldptr, size_t size)
 {
     char buf[V_HEXSTRING_SIZE];
-    size_t diff;
+    size_t diff = 0;
 
     V_DEBUG_OFF;
 

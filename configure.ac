@@ -1,7 +1,7 @@
 dnl Process this file with autoconf to produce a configure script.
 
 dnl Initialize autoconf.
-AC_INIT(ifm, [5.5], [zondo42@gmail.com])
+AC_INIT([ifm],[5.5],[zondo42@gmail.com])
 AC_CONFIG_SRCDIR(src/ifm-main.c)
 AC_CONFIG_AUX_DIR(etc)
 AC_CONFIG_HEADERS([etc/config.h])
@@ -19,6 +19,9 @@ AM_CHECK_CC_OPTION(-Wall)
 
 AM_CHECK_CC_OPTION(-Werror-implicit-function-declaration)
 
+AM_CHECK_CC_OPTION(-Wno-multistatement-macros)
+AM_CHECK_CC_OPTION(-Wno-sign-compare)
+AM_CHECK_CC_OPTION(-Wno-switch)
 AM_CHECK_CC_OPTION(-Wno-unused-but-set-variable)
 AM_CHECK_CC_OPTION(-Wno-unused-parameter)
 AM_CHECK_CC_OPTION(-Wno-unused-value)
@@ -87,8 +90,7 @@ if test $PERL = no; then
 fi
 
 dnl Write Makefiles.
-AC_OUTPUT(
-Makefile
+AC_CONFIG_FILES([Makefile
 doc/Makefile
 doc/conf.py
 lib/Makefile
@@ -99,4 +101,5 @@ src/libfig/Makefile
 src/libvars/Makefile
 tests/Makefile
 win32/Makefile
-)
+])
+AC_OUTPUT

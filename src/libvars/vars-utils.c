@@ -360,7 +360,7 @@ v_permute(int total, int num)
 int *
 v_permute_next(void)
 {
-    int i, prev, next;
+    int i, prev, next = 0;
 
     if (p_count == NULL)
         return NULL;

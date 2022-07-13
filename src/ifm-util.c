@@ -340,7 +340,7 @@ pack_sections(int xmax, int ymax)
 void
 setup_room_names(void)
 {
-    char tag[10], *name, *jstyle = var_string("join_format");
+    char tag[20], *name, *jstyle = var_string("join_format");
     vhash *room, *join, *from, *to;
     int jnum = 0;
     V_BUF_DECL;

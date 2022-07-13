@@ -1099,7 +1099,7 @@ vl_splice(vlist *l, int offset, int length, vlist *r)
 vlist *
 vl_split_string(char *string, char *sep, char *quotes, int nullfields)
 {
-    char openquote, closequote, *str = string, *cp;
+    char openquote = '\0', closequote = '\0', *str = string, *cp;
     int addword = 0;
     vscalar *val;
     vlist *l;
