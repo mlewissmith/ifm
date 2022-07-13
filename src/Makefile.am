@@ -47,7 +47,7 @@ ifm-parse.h: ifm-parse.c
 # Version control version stamp.
 
 VCFILE = ifm-main.o
-VCVERSION := $(shell $(top_srcdir)/etc/vctag)
+VCVERSION := $(shell $(top_srcdir)/etc/vctag .. 2>/dev/null)
 
 $(VCFILE): stamp-vc
 

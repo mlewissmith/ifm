@@ -591,7 +591,10 @@ char *
 get_version(void)
 {
 #ifdef VCVERSION
-    return VCVERSION;
+    if (strlen(VCVERSION) > 0)
+        return VCVERSION;
+    else
+        return VERSION;
 #else
     return VERSION;
 #endif
