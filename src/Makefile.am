@@ -1,5 +1,7 @@
 ## Automake template for ifm.
 
+.NOTPARALLEL:
+
 SUBDIRS = libfig libvars
 
 bin_PROGRAMS = ifm
