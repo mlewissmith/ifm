@@ -92,6 +92,7 @@ fi
 dnl Write Makefiles.
 AC_CONFIG_FILES([Makefile
 doc/Makefile
+doc/examples/Makefile
 doc/conf.py
 lib/Makefile
 man/Makefile

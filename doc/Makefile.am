@@ -74,9 +74,13 @@ LARGE = $(IFM2WEB) -z 3 -s 40
 SMALL = $(IFM2WEB) -z 3 -s 14
 TASKS = $(IFM2WEB) -g -s 70
 
+SUBDIRS = examples
+
 images: $(PNG)
 
-examples:; cd $(srcdir)/examples; $(MAKE)
+examples:
+	cd $(top_builddir)/src; $(MAKE)
+	cd $(builddir)/examples; $(MAKE)
 
 $(imagedir)/%.png: $(exampledir)/%.ifm
 	@ echo creating $@

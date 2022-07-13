@@ -93,4 +93,4 @@ include $(top_srcdir)/etc/Makefile.common
 
 CLEANFILES = *.output
 
-DISTCLEANFILES = ifm-parse.c ifm-parse.h ifm-scan.c
+DISTCLEANFILES = ifm-parse.c ifm-parse.h ifm-scan.c stamp-vc
