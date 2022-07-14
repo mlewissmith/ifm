@@ -78,7 +78,7 @@ if ($opts{m}) {
     system "ifm2dev -o $template -- -w $file";
 
     # Get dimensions of each one.
-    @data = `$ifm -show maps $file`;
+    @data = `$ifm -m -f text $file`;
     shift(@data);
 
     # Write each map section.

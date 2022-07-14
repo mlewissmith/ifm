@@ -46,7 +46,7 @@ foreach $opt (keys %ifmopts) {
 $file = shift(@ARGV) or die "$0: error: no IFM file specified\n";
 
 # Get no. of map sections to output.
-@data = `$ifm -show maps $file`;
+@data = `$ifm -m -f text $file`;
 shift(@data);
 $count = @data;
 die "$0: error: can't find any map sections\n" if $count <= 0;
