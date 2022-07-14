@@ -26,8 +26,7 @@ $(filedir) $(staticdir) $(templatedir)
 
 # Programs.
 
-SPHINX   = $(OPTIONAL) sphinx-build -N -d $(sphinxdir) $(SPHINXOPTS)
-OPTIONAL = $(top_srcdir)/etc/missing --run
+SPHINX = $(OPTIONAL) sphinx-build -N -d $(sphinxdir) $(SPHINXOPTS)
 
 # User guide.
 

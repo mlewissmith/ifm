@@ -1,4 +1,6 @@
-# Common Makefile targets.
+# Common Makefile stuff.
 
 docdir = $(prefix)/doc
 ifmdocdir = $(docdir)/ifm
+
+OPTIONAL = $(top_srcdir)/etc/missing --run

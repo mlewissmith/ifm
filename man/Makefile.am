@@ -1,9 +1,8 @@
 ## Automake template for IFM man page.
 
-HELP2MAN = $(OPTIONAL) help2man -N -n "$(MAN_TITLE)"
-OPTIONAL = $(top_srcdir)/etc/missing --run
-
 MAN_TITLE = Interactive Fiction Mapper
+
+HELP2MAN = $(OPTIONAL) help2man -N -n "$(MAN_TITLE)"
 
 IFM = $(top_builddir)/src/ifm
 
