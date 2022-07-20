@@ -1,11 +1,8 @@
-IFM: Interactive Fiction Mapper
-===============================
+# IFM: Interactive Fiction Mapper
 
-[builds.sr.ht
-status](https://builds.sr.ht/~zondo/ifm/commits/master/.build.yml?)
+[![builds.sr.ht status](https://builds.sr.ht/~zondo/ifm/commits/master/.build.yml.svg)](https://builds.sr.ht/~zondo/ifm/commits/master/.build.yml?)
 
-About IFM
----------
+## About IFM
 
 IFM is a language and a program for keeping track of your progress
 through an Interactive Fiction game. You can record each room you visit
@@ -30,15 +27,13 @@ viewed and edited using Xfig, or converted into many other formats.
 For more information, see the IFM user guide at
 <http://ifm.readthedocs.org>.
 
-Copyright
----------
+## Copyright
 
 IFM and its utility programs are free software, and you may redistribute
 them under certain conditions; see the files `COPYING` and `COPYING.DOC`
 for details.
 
-Installation
-------------
+## Installation
 
 See the file `INSTALL` for installation details. But it basically boils
 down to:
@@ -47,8 +42,7 @@ down to:
     make
     su -c 'make install'
 
-Hacking
--------
+## Hacking
 
 IFM is hosted at [Bitbucket](http://www.bitbucket.org/zondo/ifm), using
 [Mercurial](http://mercurial.selenic.com), and developed on Linux.
@@ -73,8 +67,7 @@ To create or update the Windows distribution:
 3.  Build everything in the usual way
 4.  Type `make zip` in the `win32` directory
 
-Finally\...
------------
+## Finally\...
 
 Feel free to send comments, bug reports, suggestions, etc. to me. I am
 Glenn Hutchings (<zondo42@gmail.com>).
