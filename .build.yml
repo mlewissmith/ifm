@@ -21,6 +21,9 @@ tasks:
   - test: |
       cd ifm/tests
       make check
+  - dist: |
+      cd ifm
+      make distcheck
 
 triggers:
   - condition: failure
