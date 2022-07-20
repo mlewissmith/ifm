@@ -38,6 +38,11 @@ AC_PROG_INSTALL
 AC_PROG_MAKE_SET
 AC_PROG_RANLIB
 
+dnl Check for libraries.
+AC_CHECK_LIB(plot, pl_newpl_r)
+
+dnl TODO: bomb out if libplot not found
+
 dnl Check for building on MinGW.
 MINGW32=no
 if test $build_os == mingw32; then

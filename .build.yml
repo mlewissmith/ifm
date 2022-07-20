@@ -10,6 +10,7 @@ packages:
   - graphviz
   - fig2dev
   - help2man
+  - plotutils
 
 sources:
   - https://git.sr.ht/~zondo/ifm

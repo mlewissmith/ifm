@@ -20,6 +20,7 @@
 #include "ifm-fig.h"
 #include "ifm-map.h"
 #include "ifm-path.h"
+#include "ifm-plot.h"
 #include "ifm-ps.h"
 #include "ifm-raw.h"
 #include "ifm-rec.h"
