@@ -67,6 +67,9 @@ if test $WISH = no; then
    tkifm=
 fi
 
+dnl Check for pandoc.
+AC_PATH_PROGS(PANDOC, pandoc, no)
+
 dnl Check for perl.
 AC_PATH_PROGS(PERL, perl5.002 perl5 perl, no)
 

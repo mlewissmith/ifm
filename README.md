@@ -1,43 +1,46 @@
 IFM: Interactive Fiction Mapper
 ===============================
 
-[![builds.sr.ht status](https://builds.sr.ht/~zondo/ifm/commits/master/.build.yml.svg)](https://builds.sr.ht/~zondo/ifm/commits/master/.build.yml?)
+[builds.sr.ht
+status](https://builds.sr.ht/~zondo/ifm/commits/master/.build.yml?)
 
 About IFM
 ---------
 
-IFM is a language and a program for keeping track of your progress through
-an Interactive Fiction game.  You can record each room you visit and its
-relation to other rooms, the initial locations of useful items you find,
-and the tasks you need to perform in order to solve the game.
+IFM is a language and a program for keeping track of your progress
+through an Interactive Fiction game. You can record each room you visit
+and its relation to other rooms, the initial locations of useful items
+you find, and the tasks you need to perform in order to solve the game.
 
-The IFM mapping commands are designed so that you can easily add to the map
-as you explore the game.  You type in the rooms you visit and the
+The IFM mapping commands are designed so that you can easily add to the
+map as you explore the game. You type in the rooms you visit and the
 directions you move in to reach other rooms, and IFM calculates the
-position of each room relative to the others.  A map can consist of several
-independent sections, allowing you to divide up the map however you like.
+position of each room relative to the others. A map can consist of
+several independent sections, allowing you to divide up the map however
+you like.
 
 The IFM task commands, if used, allow you to specify the order in which
-game-solving tasks must be done.  The IFM program can then calculate and
+game-solving tasks must be done. The IFM program can then calculate and
 print different styles of walkthrough for the game.
 
-IFM can write hardcopy maps directly to PostScript, suitable for printing
-or viewing.  It can also write maps in Fig format, which can be viewed and
-edited using Xfig, or converted into many other formats.
+IFM can write hardcopy maps directly to PostScript, suitable for
+printing or viewing. It can also write maps in Fig format, which can be
+viewed and edited using Xfig, or converted into many other formats.
 
-For more information, see the [IFM user guide](http://ifm.readthedocs.org).
+For more information, see the IFM user guide at
+<http://ifm.readthedocs.org>.
 
 Copyright
 ---------
 
 IFM and its utility programs are free software, and you may redistribute
-them under certain conditions; see the files [COPYING](COPYING) and
-[COPYING.DOC](COPYING.DOC) for details.
+them under certain conditions; see the files `COPYING` and `COPYING.DOC`
+for details.
 
 Installation
 ------------
 
-See the file `INSTALL` for installation details.  But it basically boils
+See the file `INSTALL` for installation details. But it basically boils
 down to:
 
     ./configure
@@ -47,30 +50,33 @@ down to:
 Hacking
 -------
 
-IFM is hosted at [Sourcehut](https://git.sr.ht/~zondo/ifm) and developed on Linux.  You're free to
-hack on it to your heart's content.  If you have just done a `git clone` to
-get a copy, you'll need some extra tools installed to build it:
+IFM is hosted at [Bitbucket](http://www.bitbucket.org/zondo/ifm), using
+[Mercurial](http://mercurial.selenic.com), and developed on Linux.
+You\'re free to hack on it to your heart\'s content. If you have just
+done a `hg clone` to get a copy, you\'ll need some extra tools installed
+to build it:
 
-* GNU `make`
-* The GNU autotools: `autoconf`, `automake`
-* Parser generator tools: `lex`, `yacc` (or `bison`)
-* [Sphinx](http://sphinx.pocoo.org) to build the IFM manual (and [Pygments](http://pygments.org) for syntax
-  highlighting)
-* GNU `help2man` to build the IFM man page
+-   GNU `make`.
+-   The GNU autotools: `autoconf`, `automake`.
+-   Parser generator tools: `lex`, `yacc` (or `bison`).
+-   [Sphinx](http://sphinx.pocoo.org) to build the IFM manual (and
+    [Pygments](http://pygments.org) for syntax highlighting)
+-   GNU `help2man` to build the IFM man page
 
-To get things started, run `autogen.sh`.  Then build as normal.
+To get things started, run `autogen.sh`. Then build as normal.
 
 To create or update the Windows distribution:
 
-1. Clone this repo on Windows
-2. Install [MinGW](http://mingw.org), including the tools mentioned above
-3. Build everything in the usual way
-4. Type `make zip` in the `win32` directory
+1.  Clone this repo on Windows
+2.  Install [MinGW](http://mingw.org), including the tools mentioned
+    above
+3.  Build everything in the usual way
+4.  Type `make zip` in the `win32` directory
 
-Finally...
-----------
+Finally\...
+-----------
 
-Feel free to send comments, bug reports, suggestions, etc. to me.  I am
+Feel free to send comments, bug reports, suggestions, etc. to me. I am
 Glenn Hutchings (<zondo42@gmail.com>).
 
 Happy mapping!

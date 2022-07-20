@@ -10,8 +10,8 @@ EXTRA_DIST = README README.md COPYING.DOC TO-DO
 
 EXTRA_DIRS = etc contrib
 
-README: README.md
-	cp $< $@
+README.md: README
+	$(OPTIONAL) pandoc -f rst -o $@ $<
 
 dist-hook: dist-extra dist-config dist-header dist-touch dist-cleanup
 
