@@ -12,6 +12,8 @@ Version 5.5 (unreleased)
 
 * The ``-e`` option (specify max errors before exiting) has been removed.
 
+* Fixed problem caused by recent compiler versions becoming a bit fussier.
+
 Version 5.4 (13 Feb 2009)
 =========================
 
