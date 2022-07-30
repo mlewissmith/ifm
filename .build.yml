@@ -7,6 +7,7 @@ packages:
   - flex
   - python3-venv
   - imagemagick
+  - graphviz
   - fig2dev
   - help2man
 
