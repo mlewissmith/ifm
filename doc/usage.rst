@@ -99,6 +99,12 @@ Next comes the auxiliary options:
 
    Don't read your personal init file.
 
+.. cmdoption:: -v, --verbose
+
+   Be verbose about things.
+
+   .. versionadded:: 5.5
+
 .. cmdoption:: -w, --nowarn
 
    Don't print warnings.
@@ -118,7 +124,7 @@ Finally, here are the information options:
 	   Show a complete list of defined variables, in a format suitable
 	   for feeding back into IFM.  See :doc:`vars`.
 
-.. cmdoption:: -v, --version
+.. cmdoption:: --version
 
    Print the program version.
 
