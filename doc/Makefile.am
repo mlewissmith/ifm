@@ -27,6 +27,8 @@ INCFILES = NEWS THANKS COPYING COPYING.DOC
 REPODOCS = conf.py $(DOCFILES) $(imagedir) $(exampledir) $(tooldir)	\
 $(filedir) $(staticdir) $(templatedir)
 
+SUBDIRS = conf examples
+
 # Programs.
 
 SPHINX = $(venvdir)/bin/sphinx-build -N -d $(sphinxdir) $(SPHINXOPTS)
@@ -78,13 +80,12 @@ TMP = $(subst ${exampledir},${imagedir},${EXAMPLES})
 PNG = $(subst .ifm,.png,${TMP}) $(imagedir)/ruins-graph.png	\
 $(imagedir)/ruins-graph-byroom.png
 
-IFM2WEB = perl $(top_srcdir)/progs/ifm2web.pl -S helvetica
+IFM     = $(top_builddir)/src/ifm -I $(top_srcdir)/lib
+IFM2WEB = env IFM="$(IFM)" perl $(top_srcdir)/progs/ifm2web.pl -S helvetica
 
 LARGE = $(IFM2WEB) -z 3 -s 40
 SMALL = $(IFM2WEB) -z 3 -s 14
 TASKS = $(IFM2WEB) -g -s 70
-
-SUBDIRS = conf examples
 
 images: $(PNG)
 
@@ -94,18 +95,22 @@ examples:
 
 $(imagedir)/%.png: $(exampledir)/%.ifm
 	@ echo creating $@
+	@ mkdir -p $(imagedir)
 	$(LARGE) -o $@ $<
 
 $(imagedir)/%-graph.png: $(exampledir)/%.ifm
 	@ echo creating $@
+	@ mkdir -p $(imagedir)
 	@ $(TASKS) -o $@ $<
 
 $(imagedir)/%-graph-byroom.png: $(exampledir)/%.ifm
 	@ echo creating $@
+	@ mkdir -p $(imagedir)
 	@ $(TASKS) -r -o $@ $<
 
 $(imagedir)/logo.png: $(exampledir)/logo.ifm
 	@ echo creating $@
+	@ mkdir -p $(imagedir)
 	$(SMALL) -o $@ $<
 
 # Installation stuff.
@@ -128,7 +133,7 @@ $(ifmdocdir):
 
 # Distribution stuff.
 
-EXTRA_DIST = $(DOCFILES) conf examples templates static
+EXTRA_DIST = $(DOCFILES) examples templates static
 
 dist-doc:
 	if test -d $(htmldir); then					\

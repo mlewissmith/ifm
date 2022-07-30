@@ -27,7 +27,8 @@ $prefix =~ s/\.ifm$//;
 $output = $prefix . ".png" unless $output;
 
 # Build IFM command.
-$ifm  = "ifm -nowarn";
+$ifm  = $ENV{IFM} || "ifm";
+$ifm .= " -nowarn";
 $ifm .= " -S $style" if $style;
 
 if ($opts{g}) {
