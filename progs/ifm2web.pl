@@ -13,7 +13,7 @@ $dotprog = $opts{n} ? "neato" : "dot";
 $title = $opts{t} ? "true" : "false";
 $rooms = $opts{r} ? "true" : "false";
 $output = $opts{o};
-$alpha = $opts{a} || "white";
+$alpha = $opts{a} || "blue";
 $zoom = $opts{z} || 1;
 $scale = $opts{s} || 100;
 $style = $opts{S};
@@ -39,7 +39,8 @@ if ($opts{g}) {
     $ifm .= "=$maps" if $maps;
     $ifm .= " -format fig";
     $ifm .= " -s show_map_title=$title";
-    $ifm .= " -s show_map_border=false";
+    $ifm .= " -s show_map_border=true";
+    $ifm .= " -s room_colour=white";
     $ifm .= " -s map_border_colour=$alpha";
     $ifm .= " -s map_background_colour=$alpha";
 }
