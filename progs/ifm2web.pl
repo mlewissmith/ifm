@@ -91,7 +91,7 @@ sub usage {
     print "  -s scale     set convert(1) scale factor\n";
     print "  -S style     use the specified style\n";
     print "  -o file      write to specified file\n";
-    print "  -n           just print what would be done\n";
+    print "  -w           just print what would be done\n";
     print "  -h           this help message\n";
 
     exit 0;
