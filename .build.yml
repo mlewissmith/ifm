@@ -5,6 +5,9 @@ packages:
   - automake
   - bison
   - flex
+  - python3-venv
+  - imagemagick
+  - fig2dev
   - help2man
 
 sources:
@@ -21,6 +24,9 @@ tasks:
   - test: |
       cd ifm/tests
       make check
+  - htmldoc: |
+      cd ifm/doc
+      make html
   - dist: |
       cd ifm
       make distcheck
