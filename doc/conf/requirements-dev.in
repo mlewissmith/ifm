@@ -1,0 +1,6 @@
+# Development requirements.
+
+-c constraints.txt
+
+pip-tools
+wheel

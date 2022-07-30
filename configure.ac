@@ -67,11 +67,14 @@ if test $WISH = no; then
    tkifm=
 fi
 
-dnl Check for pandoc.
-AC_PATH_PROGS(PANDOC, pandoc, no)
+dnl Check for python
+AM_PATH_PYTHON([3.7])
 
 dnl Check for perl.
 AC_PATH_PROGS(PERL, perl5.002 perl5 perl, no)
+
+dnl Check for pandoc.
+AC_PATH_PROGS(PANDOC, pandoc, no)
 
 ifm2dev=ifm2dev
 AC_SUBST(ifm2dev)
@@ -97,6 +100,7 @@ dnl Write Makefiles.
 AC_CONFIG_FILES([Makefile
 doc/Makefile
 doc/examples/Makefile
+doc/conf/Makefile
 doc/conf.py
 lib/Makefile
 man/Makefile

@@ -1,0 +1,5 @@
+# Package dependencies.
+
+-c constraints.txt
+
+sphinx

@@ -4,12 +4,15 @@ builddir	= $(top_builddir)/doc
 htmldir		= $(builddir)/html
 latexdir	= $(builddir)/latex
 sphinxdir	= $(builddir)/sphinx
+venvdir 	= $(builddir)/venv
+
 imagedir	= $(srcdir)/images
 exampledir	= $(srcdir)/examples
 tooldir		= $(srcdir)/tools
 staticdir	= $(srcdir)/static
 templatedir	= $(srcdir)/templates
 filedir		= $(srcdir)/files
+
 repodir		= $(top_srcdir)/../ifmdocs
 
 # Documentation sources.
@@ -26,11 +29,12 @@ $(filedir) $(staticdir) $(templatedir)
 
 # Programs.
 
-SPHINX = $(OPTIONAL) sphinx-build -N -d $(sphinxdir) $(SPHINXOPTS)
+SPHINX = $(venvdir)/bin/sphinx-build -N -d $(sphinxdir) $(SPHINXOPTS)
+PIP    = $(venvdir)/bin/pip
 
 # User guide.
 
-.PHONY: html latex images examples
+.PHONY: html latex images examples venv
 
 guide: html
 
@@ -48,7 +52,7 @@ linkcheck: setup conf.py
 ifmdocs: $(repodir) setup
 	cp -auv $(REPODOCS) $(repodir)
 
-setup:
+setup: venv
 	@ mkdir -p $(htmldir) $(latexdir) $(sphinxdir) $(imagedir)
 	@ $(MAKE) -s images examples
 	@ for file in conf.py images/logo.png; do			\
@@ -59,6 +63,13 @@ setup:
 	@ for file in $(INCFILES); do					\
 	    cp $(top_srcdir)/$$file $(filedir);				\
 	done
+
+venv:;	@ test -d $(venvdir) || $(MAKE) init
+
+init:;	$(PYTHON) -m venv $(venvdir)
+	$(PIP) install -U pip
+	$(PIP) install -r conf/requirements-dev.txt
+	$(PIP) install -r conf/requirements.txt
 
 # Generated images.
 
@@ -73,7 +84,7 @@ LARGE = $(IFM2WEB) -z 3 -s 40
 SMALL = $(IFM2WEB) -z 3 -s 14
 TASKS = $(IFM2WEB) -g -s 70
 
-SUBDIRS = examples
+SUBDIRS = conf examples
 
 images: $(PNG)
 
@@ -117,7 +128,7 @@ $(ifmdocdir):
 
 # Distribution stuff.
 
-EXTRA_DIST = $(DOCFILES) examples templates static
+EXTRA_DIST = $(DOCFILES) conf examples templates static
 
 dist-doc:
 	if test -d $(htmldir); then					\

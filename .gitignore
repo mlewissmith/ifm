@@ -21,6 +21,7 @@ doc/latex
 doc/images
 doc/files
 doc/sphinx
+doc/venv
 
 ifm
 ifm.exe
