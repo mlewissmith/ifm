@@ -10,6 +10,8 @@ EXTRA_DIST = README README.md COPYING.DOC TO-DO
 
 EXTRA_DIRS = etc contrib
 
+all-local: $(EXTRA_DIST)
+
 README.md: README
 	$(OPTIONAL) pandoc -f rst -o $@ $<
 
