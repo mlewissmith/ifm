@@ -40,7 +40,7 @@ Existing IFM maps
 * There's a web page set up by Dave Chapeskie (dchapes@ddm.wox.org) which
   has many IFM maps in source and PostScript format, at
 
-      https://bitbucket.org/dchapes/ifmaps
+      https://hg.sr.ht/~dchapes/ifmaps
 
   At the moment it contains maps of a few Infocom and Inform games.  Some
   are complete, others not quite.  A few have tasks set up so that a

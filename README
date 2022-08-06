@@ -50,15 +50,14 @@ down to::
 Hacking
 =======
 
-IFM is hosted at Bitbucket_, using Mercurial_, and developed on Linux.
-You're free to hack on it to your heart's content.  If you have just done a
-``hg clone`` to get a copy, you'll need some extra tools installed to build
-it:
+IFM is hosted at Sourcehut_, and developed on Linux.  You're free to hack
+on it to your heart's content.  If you have just cloned the repo to get a
+copy, you'll need some extra tools installed to build it:
 
-* GNU ``make``.
-* The GNU autotools: ``autoconf``, ``automake``.
-* Parser generator tools: ``lex``, ``yacc`` (or ``bison``).
-* Sphinx_ to build the IFM manual (and Pygments_ for syntax highlighting)
+* GNU ``make``
+* The GNU autotools: ``autoconf``, ``automake``
+* Parser generator tools: ``lex``, ``yacc`` (or ``bison``)
+* Python to build the HTML documentation
 * GNU ``help2man`` to build the IFM man page
 
 To get things started, run ``autogen.sh``.  Then build as normal.
@@ -78,8 +77,5 @@ Glenn Hutchings (zondo42@gmail.com).
 
 Happy mapping!
 
-.. _Mercurial: http://mercurial.selenic.com
-.. _Bitbucket: http://www.bitbucket.org/zondo/ifm
-.. _Sphinx: http://sphinx.pocoo.org
-.. _Pygments: http://pygments.org
-.. _MinGW: http://mingw.org
+.. _Sourcehut: https://git.sr.ht/~zondo/ifm
+.. _MinGW: https://sourceforge.net/projects/mingw

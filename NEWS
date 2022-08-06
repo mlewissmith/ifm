@@ -56,13 +56,12 @@ Version 5.3 (14 Nov 2008)
 * Since ``asciimapper`` is now in the IF archive, it is no longer part of
   the ``contrib`` directory.
 
-* PostScript maps now conform properly to Adobe DSC_.  This stops
-  Ghostscript 8.x barfing on them.
+* PostScript maps now conform properly to the Adobe Document Structuring
+  Conventions.  This stops Ghostscript 8.x barfing on them.
 
-.. _Sphinx: http://sphinx.pocoo.org
-.. _Pygments: http://pygments.org
-.. _Python: http://www.python.org
-.. _DSC: http://www-cdf.fnal.gov/offline/PostScript/AdobePS.html
+.. _Sphinx: https://www.sphinx-doc.org/en/master/
+.. _Pygments: https://pygments.org
+.. _Python: https://www.python.org
 
 Version 5.2 (7 Sep 2006)
 ========================

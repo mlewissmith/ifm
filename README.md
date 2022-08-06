@@ -44,17 +44,15 @@ down to:
 
 ## Hacking
 
-IFM is hosted at [Bitbucket](http://www.bitbucket.org/zondo/ifm), using
-[Mercurial](http://mercurial.selenic.com), and developed on Linux.
-You\'re free to hack on it to your heart\'s content. If you have just
-done a `hg clone` to get a copy, you\'ll need some extra tools installed
-to build it:
+IFM is hosted at [Sourcehut](https://git.sr.ht/~zondo/ifm), and
+developed on Linux. You\'re free to hack on it to your heart\'s content.
+If you have just cloned the repo to get a copy, you\'ll need some extra
+tools installed to build it:
 
--   GNU `make`.
--   The GNU autotools: `autoconf`, `automake`.
--   Parser generator tools: `lex`, `yacc` (or `bison`).
--   [Sphinx](http://sphinx.pocoo.org) to build the IFM manual (and
-    [Pygments](http://pygments.org) for syntax highlighting)
+-   GNU `make`
+-   The GNU autotools: `autoconf`, `automake`
+-   Parser generator tools: `lex`, `yacc` (or `bison`)
+-   Python to build the HTML documentation
 -   GNU `help2man` to build the IFM man page
 
 To get things started, run `autogen.sh`. Then build as normal.
@@ -62,8 +60,8 @@ To get things started, run `autogen.sh`. Then build as normal.
 To create or update the Windows distribution:
 
 1.  Clone this repo on Windows
-2.  Install [MinGW](http://mingw.org), including the tools mentioned
-    above
+2.  Install [MinGW](https://sourceforge.net/projects/mingw), including
+    the tools mentioned above
 3.  Build everything in the usual way
 4.  Type `make zip` in the `win32` directory
 
