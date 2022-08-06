@@ -31,11 +31,11 @@ Then input from the file(s) on the command-line is read.  If no files were
 specified, :samp:`stdin` is read.  A filename equal to :file:`-` also
 indicates that :samp:`stdin` should be read at that point.
 
-If any of the :option:`-map`, :option:`-items`, :option:`-tasks` or
-:option:`-show` options was specified, the appropriate output is produced.
-If not, only a syntax check of the input is done.
+If any of the :code:`-map`, :code:`-items`, :code:`-tasks` or :code:`-show`
+options was specified, the appropriate output is produced.  If not, only a
+syntax check of the input is done.
 
-When producing output, the output format specified by the :option:`-format`
+When producing output, the output format specified by the :code:`-format`
 option is used.  If this was not specified, the first format in the list
 which supports this type of output is chosen.
 
@@ -186,7 +186,7 @@ section individually.  There's a utility program called :doc:`ifm2dev
 <ifm2dev>` which automatically does this.
 
 Fig format is also useful if you want to print poster-sized maps over
-several pages.  The :option:`-M` option of :program:`fig2dev` (part of the
+several pages.  The :code:`-M` option of :program:`fig2dev` (part of the
 transfig package) will automatically do this.
 
 .. index::
@@ -349,7 +349,7 @@ somewhere on the IFM search path, and it would be read automatically.  This
 is useful if, for example, you want to use the same style in several
 different maps.
 
-You can define global styles using the :option:`--style` command-line
+You can define global styles using the :code:`--style` command-line
 option; these apply to all IFM objects.  Global styles are most useful when
 setting variables that affect the overall appearance of the output, in
 conjunction with the file search method described above (e.g., a file
@@ -381,7 +381,7 @@ IFM comes with a few predefined style files, as shown in the table below:
 If you create any generally useful or nice-looking styles, you might want
 to send me a copy so I can include them with the next version of IFM.  The
 **Scope** field indicates which type of IFM object it applies to.  Styles
-that have global scope can meaningfully be used by the :option:`--style`
+that have global scope can meaningfully be used by the :code:`--style`
 command-line option.
 
 Environment variables

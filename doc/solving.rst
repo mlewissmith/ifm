@@ -722,7 +722,7 @@ Displaying solver messages
 
 Finally, you can gain an insight into what the game solver's up to by
 setting the :samp:`solver_messages` variable (either in one of the input
-files, or via the :option:`-set` command-line option).  This produces reams
+files, or via the :code:`-set` command-line option).  This produces reams
 of output giving details of the game solver's thoughts before it does
 anything. [4]_
 
