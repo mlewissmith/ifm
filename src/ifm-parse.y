@@ -75,7 +75,8 @@ static int allflag = 0;         /* All-items flag */
 static int repeat = 0;          /* String repeat count */
 static int instyle = 0;         /* Set variable in different style? */
 
-extern int yylex(void);
+extern int scanlex(void);
+#define yylex scanlex
 
 void
 init_parser(void)

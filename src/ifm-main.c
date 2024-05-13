@@ -377,11 +377,11 @@ set_output_handler(void (*func)(int type, char *msg))
 int
 read_input(char *file, int search, int required)
 {
-    void yyrestart(FILE *input_file);
+    void scanrestart(FILE *input_file);
     int yyparse(void);
 
     static int parses = 0;
-    extern FILE *yyin;
+    extern FILE *scanin;
     char *path = file;
 
     line_num = 0;
@@ -414,18 +414,18 @@ read_input(char *file, int search, int required)
     errors = 0;
 
     if (path == NULL)
-        yyin = stdin;
-    else if ((yyin = fopen(path, "r")) == NULL)
+        scanin = stdin;
+    else if ((scanin = fopen(path, "r")) == NULL)
         err("can't read '%s'", path);
 
     if (errors == 0) {
         if (parses++)
-            yyrestart(yyin);
+            scanrestart(scanin);
         yyparse();
     }
 
-    if (yyin != NULL)
-        fclose(yyin);
+    if (scanin != NULL)
+        fclose(scanin);
 
     line_num = 0;
     strcpy(infile, "");

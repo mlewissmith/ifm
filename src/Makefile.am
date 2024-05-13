@@ -29,6 +29,9 @@ VARS_BIN = $(top_builddir)/src/libvars
 ifm_LDFLAGS = -L$(FIG_BIN) -L$(VARS_BIN)
 ifm_LDADD   = -lfig -lvars -lm
 
+LEX_PREFIX = scan
+LEX_OUTPUT_ROOT = lex.$(LEX_PREFIX)
+AM_LFLAGS = -CFa -8 -P$(LEX_PREFIX)
 AM_YFLAGS = -d -v
 
 if MINGW32
