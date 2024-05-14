@@ -525,6 +525,14 @@ do_output(int type, char *fmt, ...)
         errors++;
 
     if (type == O_ERROR || type == O_WARNING) {
+        if (output_func == NULL) {
+            V_BUF_ADDF("%s: ", progname);
+            if (type == O_ERROR)
+                V_BUF_ADD("error: ");
+            else
+                V_BUF_ADD("warning: ");
+        }
+
         if (strlen(infile) > 0) {
             V_BUF_ADD(infile);
             if (line_num > 0)
