@@ -1187,7 +1187,7 @@ solver_msg(int level, char *fmt, ...)
     V_BUF_DECL;
     char *msg;
 
-    if (TASK_VERBOSE) {
+    if (write_tasks && TASK_VERBOSE) {
         indent(level);
         V_BUF_FMT(fmt, msg);
         output("%s\n", msg);

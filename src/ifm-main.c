@@ -48,12 +48,12 @@ int line_num = 0;            /* Current line number */
 vlist *ifm_search = NULL;       /* Search path */
 vlist *ifm_styles = NULL;       /* Global styles */
 
+int write_map = 0;              /* Whether to write map */
+int write_items = 0;            /* Whether to write item list */
+int write_tasks = 0;            /* Whether to write task list */
+
 static char *progname;          /* Program name */
 static char infile[BUFSIZ];     /* Input filename */
-
-static int write_map = 0;       /* Whether to write map */
-static int write_items = 0;     /* Whether to write item list */
-static int write_tasks = 0;     /* Whether to write task list */
 
 static int format_idx = -1;     /* Output format index */
 static int errors = 0;          /* No. of errors */

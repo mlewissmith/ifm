@@ -19,6 +19,7 @@ extern int line_num;
 extern char *ifm_format;
 extern vlist *ifm_search;
 extern vlist *ifm_styles;
+extern int write_map, write_items, write_tasks;
 
 /* Advertised functions */
 extern void initialize(void);
