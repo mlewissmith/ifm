@@ -1,6 +1,7 @@
 ## Automake template for IFM documentation.
 
 builddir	= $(top_builddir)/doc
+confdir		= $(builddir)/conf
 htmldir		= $(builddir)/html
 latexdir	= $(builddir)/latex
 sphinxdir	= $(builddir)/sphinx
@@ -53,6 +54,8 @@ linkcheck: setup conf.py
 
 ifmdocs: $(repodir) setup
 	cp -auv $(REPODOCS) $(repodir)
+	mkdir -p $(repodir)/conf
+	cp $(confdir)/requirements.txt $(repodir)/conf
 
 setup: venv
 	@ mkdir -p $(htmldir) $(latexdir) $(sphinxdir) $(imagedir)
