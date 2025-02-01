@@ -443,14 +443,14 @@ vg_declare(void)
     if (vgraph_type == NULL) {
         vgraph_type = v_create("GRAPH", "G");
 	v_create_func(vgraph_type, (void *(*)()) vg_create);
-        v_copy_func(vgraph_type, (void *(*)()) vg_copy);
-        v_read_func(vgraph_type, (void *(*)()) vg_read);
-        v_write_func(vgraph_type, vg_write);
-        v_freeze_func(vgraph_type, vg_freeze);
-        v_thaw_func(vgraph_type, (void *(*)()) vg_thaw);
-        v_print_func(vgraph_type, vg_print);
-        v_destroy_func(vgraph_type, vg_destroy);
-        v_traverse_func(vgraph_type, vg_traverse);
+        v_copy_func(vgraph_type, (void *(*)(void *)) vg_copy);
+        v_read_func(vgraph_type, (void *(*)(FILE *)) vg_read);
+        v_write_func(vgraph_type, (int (*)(void *, FILE *)) vg_write);
+        v_freeze_func(vgraph_type, (int (*)(void *, FILE *)) vg_freeze);
+        v_thaw_func(vgraph_type, (void *(*)(FILE *)) vg_thaw);
+        v_print_func(vgraph_type, (void (*)(void *, FILE *)) vg_print);
+        v_destroy_func(vgraph_type, (void (*)(void *)) vg_destroy);
+        v_traverse_func(vgraph_type, (int (*)(void *, int (*)(void *))) vg_traverse);
     }
 
     return vgraph_type;

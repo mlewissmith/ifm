@@ -139,15 +139,15 @@ vq_declare(void)
     if (vqueue_type == NULL) {
         vqueue_type = v_create("QUEUE", "Q");
 	v_create_func(vqueue_type, (void *(*)()) vq_create);
-        v_copy_func(vqueue_type, (void *(*)()) vq_copy);
-        v_next_func(vqueue_type, vq_next);
-        v_read_func(vqueue_type, (void *(*)()) vq_read);
-        v_write_func(vqueue_type, vq_write);
-        v_freeze_func(vqueue_type, vq_freeze);
-        v_thaw_func(vqueue_type, (void *(*)()) vq_thaw);
-        v_print_func(vqueue_type, vq_print);
-        v_destroy_func(vqueue_type, vq_destroy);
-        v_traverse_func(vqueue_type, vq_traverse);
+        v_copy_func(vqueue_type, (void *(*)(void *)) vq_copy);
+        v_next_func(vqueue_type, (int (*)(void *)) vq_next);
+        v_read_func(vqueue_type, (void *(*)(FILE *)) vq_read);
+        v_write_func(vqueue_type, (int (*)(void *, FILE *)) vq_write);
+        v_freeze_func(vqueue_type, (int (*)(void *, FILE *)) vq_freeze);
+        v_thaw_func(vqueue_type, (void *(*)(FILE *)) vq_thaw);
+        v_print_func(vqueue_type, (void (*)(void *, FILE *)) vq_print);
+        v_destroy_func(vqueue_type, (void (*)(void *)) vq_destroy);
+        v_traverse_func(vqueue_type, (int (*)(void *, int (*)(void *))) vq_traverse);
     }
 
     return vqueue_type;

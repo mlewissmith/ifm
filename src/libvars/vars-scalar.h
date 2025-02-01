@@ -81,7 +81,7 @@ extern char *vs_sgetref(vscalar *s);
 extern vscalar *vs_sstore(vscalar *s, char *val);
 extern vscalar *vs_sstore_len(vscalar *s, char *base, size_t len);
 extern vscalar *vs_thaw(FILE *fp);
-extern int vs_traverse(vscalar *s, int (*func)());
+extern int vs_traverse(vscalar *s, int (*func)(void *ptr));
 extern enum v_stype vs_type(vscalar *s);
 extern void vs_undef(vscalar *s);
 extern int vs_write(vscalar *s, FILE *fp);

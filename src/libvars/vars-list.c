@@ -240,15 +240,15 @@ vl_declare(void)
     if (vlist_type == NULL) {
         vlist_type = v_create("LIST", "L");
 	v_create_func(vlist_type, (void *(*)()) vl_create);
-        v_copy_func(vlist_type, (void *(*)()) vl_copy);
-        v_next_func(vlist_type, vl_next);
-        v_read_func(vlist_type, (void *(*)()) vl_read);
-        v_write_func(vlist_type, vl_write);
-        v_freeze_func(vlist_type, vl_freeze);
-        v_thaw_func(vlist_type, (void *(*)()) vl_thaw);
-        v_print_func(vlist_type, vl_print);
-        v_destroy_func(vlist_type, vl_destroy);
-        v_traverse_func(vlist_type, vl_traverse);
+        v_copy_func(vlist_type, (void *(*)(void *)) vl_copy);
+        v_next_func(vlist_type, (int (*)(void *)) vl_next);
+        v_read_func(vlist_type, (void *(*)(FILE *)) vl_read);
+        v_write_func(vlist_type, (int (*)(void *, FILE *)) vl_write);
+        v_freeze_func(vlist_type, (int (*)(void *, FILE *)) vl_freeze);
+        v_thaw_func(vlist_type, (void *(*)(FILE *)) vl_thaw);
+        v_print_func(vlist_type, (void (*)(void *, FILE *)) vl_print);
+        v_destroy_func(vlist_type, (void (*)(void *)) vl_destroy);
+        v_traverse_func(vlist_type, (int (*)(void *, int (*)(void *))) vl_traverse);
     }
 
     return vlist_type;

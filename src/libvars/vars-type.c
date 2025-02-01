@@ -248,7 +248,7 @@ v_unknown(void *ptr)
   @param   func Function.
 */
 void
-v_copy_func(vtype *t, void *(*func)())
+v_copy_func(vtype *t, void *(*func)(void *))
 {
     t->copy = func;
 }
@@ -272,7 +272,7 @@ v_create_func(vtype *t, void *(*func)())
   @param   func Function.
 */
 void
-v_destroy_func(vtype *t, void (*func)())
+v_destroy_func(vtype *t, void (*func)(void *))
 {
     t->destroy = func;
 }
@@ -284,7 +284,7 @@ v_destroy_func(vtype *t, void (*func)())
   @param   func Function.
 */
 void
-v_freeze_func(vtype *t, int (*func)())
+v_freeze_func(vtype *t, int (*func)(void *, FILE *))
 {
     t->freeze = func;
 }
@@ -296,7 +296,7 @@ v_freeze_func(vtype *t, int (*func)())
   @param   func Function.
 */
 void
-v_next_func(vtype *t, int (*func)())
+v_next_func(vtype *t, int (*func)(void *))
 {
     t->next = func;
 }
@@ -308,7 +308,7 @@ v_next_func(vtype *t, int (*func)())
   @param   func Function.
 */
 void
-v_print_func(vtype *t, void (*func)())
+v_print_func(vtype *t, void (*func)(void *, FILE *))
 {
     t->print = func;
 }
@@ -320,7 +320,7 @@ v_print_func(vtype *t, void (*func)())
   @param   func Function.
 */
 void
-v_read_func(vtype *t, void *(*func)())
+v_read_func(vtype *t, void *(*func)(FILE *))
 {
     t->read = func;
 }
@@ -332,7 +332,7 @@ v_read_func(vtype *t, void *(*func)())
   @param   func Function.
 */
 void
-v_thaw_func(vtype *t, void *(*func)())
+v_thaw_func(vtype *t, void *(*func)(FILE *))
 {
     t->thaw = func;
 }
@@ -344,7 +344,7 @@ v_thaw_func(vtype *t, void *(*func)())
   @param   func Function.
 */
 void
-v_traverse_func(vtype *t, int (*func)())
+v_traverse_func(vtype *t, int (*func)(void *, int (*)(void *)))
 {
     t->traverse = func;
 }
@@ -356,7 +356,7 @@ v_traverse_func(vtype *t, int (*func)())
   @param   func Function.
 */
 void
-v_write_func(vtype *t, int (*func)())
+v_write_func(vtype *t, int (*func)(void *, FILE *))
 {
     t->write = func;
 }
