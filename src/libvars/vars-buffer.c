@@ -214,14 +214,14 @@ vb_declare(void)
     if (vbuffer_type == NULL) {
         vbuffer_type = v_create("BUFFER", "B");
 	v_create_func(vbuffer_type, (void *(*)()) vb_create);
-        v_copy_func(vbuffer_type, (void *(*)()) vb_copy);
-        v_read_func(vbuffer_type, (void *(*)()) vb_read);
-        v_write_func(vbuffer_type, vb_write);
-        v_freeze_func(vbuffer_type, vb_freeze);
-        v_thaw_func(vbuffer_type, (void *(*)()) vb_thaw);
-        v_print_func(vbuffer_type, vb_print);
-        v_destroy_func(vbuffer_type, vb_destroy);
-        v_traverse_func(vbuffer_type, vb_traverse);
+        v_copy_func(vbuffer_type, (void *(*)(void *)) vb_copy);
+        v_read_func(vbuffer_type, (void *(*)(FILE *)) vb_read);
+        v_write_func(vbuffer_type, (int (*)(void *, FILE *))vb_write);
+        v_freeze_func(vbuffer_type, (int (*)(void *, FILE *))vb_freeze);
+        v_thaw_func(vbuffer_type, (void *(*)(FILE *)) vb_thaw);
+        v_print_func(vbuffer_type, (void (*)(void *, FILE *))vb_print);
+        v_destroy_func(vbuffer_type, (void (*)(void *))vb_destroy);
+        v_traverse_func(vbuffer_type, (int (*)(void *, int (*)(void *)))vb_traverse);
     }
 
     return vbuffer_type;

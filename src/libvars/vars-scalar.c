@@ -225,14 +225,14 @@ vs_declare(void)
 {
     if (vscalar_type == NULL) {
         vscalar_type = v_create("SCALAR", "S");
-        v_copy_func(vscalar_type, (void *(*)()) vs_copy);
-        v_read_func(vscalar_type, (void *(*)()) vs_read);
-        v_write_func(vscalar_type, vs_write);
-        v_print_func(vscalar_type, vs_print);
-        v_freeze_func(vscalar_type, vs_freeze);
-        v_thaw_func(vscalar_type, (void *(*)()) vs_thaw);
-        v_destroy_func(vscalar_type, vs_destroy);
-        v_traverse_func(vscalar_type, vs_traverse);
+        v_copy_func(vscalar_type, (void *(*)(void *)) vs_copy);
+        v_read_func(vscalar_type, (void *(*)(FILE *)) vs_read);
+        v_write_func(vscalar_type, (int (*)(void *, FILE *)) vs_write);
+        v_print_func(vscalar_type, (void (*)(void *, FILE *)) vs_print);
+        v_freeze_func(vscalar_type, (int (*)(void *, FILE *)) vs_freeze);
+        v_thaw_func(vscalar_type, (void *(*)(FILE *)) vs_thaw);
+        v_destroy_func(vscalar_type, (void (*)(void *)) vs_destroy);
+        v_traverse_func(vscalar_type, (int (*)(void *, int(*)(void *)))vs_traverse);
     }
 
     return vscalar_type;
@@ -1020,7 +1020,7 @@ vs_thaw(FILE *fp)
 
 /* Traverse a scalar */
 int
-vs_traverse(vscalar *s, int (*func)())
+vs_traverse(vscalar *s, int (*func)(void *ptr))
 {
     int val;
 

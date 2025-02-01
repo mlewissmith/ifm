@@ -370,15 +370,15 @@ vh_declare(void)
     if (vhash_type == NULL) {
         vhash_type = v_create("HASH", "H");
 	v_create_func(vhash_type, (void *(*)()) vh_create);
-        v_copy_func(vhash_type, (void *(*)()) vh_copy);
-        v_next_func(vhash_type, vh_next);
-        v_read_func(vhash_type, (void *(*)()) vh_read);
-        v_write_func(vhash_type, vh_write);
-        v_freeze_func(vhash_type, vh_freeze);
-        v_thaw_func(vhash_type, (void *(*)()) vh_thaw);
-        v_print_func(vhash_type, vh_print);
-        v_destroy_func(vhash_type, vh_destroy);
-        v_traverse_func(vhash_type, vh_traverse);
+        v_copy_func(vhash_type, (void *(*)(void *)) vh_copy);
+        v_next_func(vhash_type, (int (*)(void *)) vh_next);
+        v_read_func(vhash_type, (void *(*)(FILE *)) vh_read);
+        v_write_func(vhash_type, (int (*)(void *, FILE *)) vh_write);
+        v_freeze_func(vhash_type, (int (*)(void *, FILE *)) vh_freeze);
+        v_thaw_func(vhash_type, (void *(*)(FILE *)) vh_thaw);
+        v_print_func(vhash_type, (void (*)(void *, FILE *)) vh_print);
+        v_destroy_func(vhash_type, (void (*)(void *)) vh_destroy);
+        v_traverse_func(vhash_type, (int (*)(void *, int (*)(void *))) vh_traverse);
     }
 
     return vhash_type;
