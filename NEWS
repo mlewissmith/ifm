@@ -4,6 +4,10 @@ Version 5.6 (unreleased)
 * Fixed map printing bug: when ``solver_messages`` was set, the solver
   setup messages were appearing in the PostScript map output.
 
+* Fixes for building using GCC 15.x, using a patch from `Frank Dana`_.
+
+.. _Frank Dana: ferdnyc@gmail.com
+
 Version 5.5 (30 Jul 2022)
 =========================
 
