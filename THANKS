@@ -9,6 +9,9 @@
 * Thanks to Lee Bigelow (ligelowbee@yahoo.com) for enhancements to the
   :doc:`GNU Emacs IFM mode <editors>`.
 
+* Thanks to Frank Dana (ferdnyc@git.sr.ht) for coming up with a patch for
+  compiling correctly using GCC 15.
+
 .. Local Variables:
 .. mode: rst
 .. End:
