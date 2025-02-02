@@ -5,7 +5,7 @@ TXT = $(subst .in,.txt,$(REQ))
 
 IDXOPTS = $(addprefix --extra-index-url ,$(INDEXES))
 PIPOPTS = --pip-args '$(PIPARGS)'
-COMPILE = $(PYTHON) -m piptools compile -v $(IDXOPTS) $(PIPOPTS) $(OPTS)
+COMPILE = python -m piptools compile -v $(IDXOPTS) $(PIPOPTS) $(OPTS)
 
 EXTRA_DIST = $(REQ) $(TXT) constraints.txt
 
@@ -22,7 +22,7 @@ upgrade-all: ## Upgrade all packages
 	@ $(MAKE) $(TXT) OPTS=-U
 
 depend: ## Update requirement dependencies
-	@ $(PYTHON) requirements.py $(REQ) > requirements.mk
+	@ python requirements.py $(REQ) > requirements.mk
 
 %.txt: %.in constraints.txt
 	@ echo Making $@
