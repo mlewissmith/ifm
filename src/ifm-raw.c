@@ -233,8 +233,8 @@ raw_task_entry(vhash *task)
     vlist *notes = vh_pget(task, "NOTE");
     vhash *room = vh_pget(task, "ROOM");
     vlist *cmds = vh_pget(task, "CMD");
-    vhash *item;
-    vlist *itemlist;
+    vhash *item_ifm2html;
+    vlist *itemlist_ifm2html;
     
     int score = vh_iget(task, "SCORE");
     viter iter;
@@ -249,8 +249,8 @@ raw_task_entry(vhash *task)
       break;
     case T_GET:
       printf("type: GET\n");
-      if ((item  = vh_pget(task, "DATA")) != NULL)
-          printf("get: %d\n", vh_iget(item, "ID"));
+      if ((item_ifm2html  = vh_pget(task, "DATA")) != NULL)
+          printf("get: %d\n", vh_iget(item_ifm2html, "ID"));
       break;
     case T_DROP:
       printf("type: DROP\n");
@@ -260,10 +260,10 @@ raw_task_entry(vhash *task)
       break;
     case T_USER:
       printf("type: USER\n");
-      if ((itemlist = vh_pget(task, "GIVE")) != NULL) {
-          v_iterate(itemlist, iter) {
-              item = vl_iter_pval(iter);
-              printf("give: %d\n", vh_iget(item, "ID"));
+      if ((itemlist_ifm2html = vh_pget(task, "GIVE")) != NULL) {
+          v_iterate(itemlist_ifm2html, iter) {
+              item_ifm2html = vl_iter_pval(iter);
+              printf("give: %d\n", vh_iget(item_ifm2html, "ID"));
           }
       }
       break;
