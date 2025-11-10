@@ -18,6 +18,7 @@
 #include "ifm-util.h"
 #include "ifm-raw.h"
 #include "ifm-vars.h"
+#include "ifm-task.h" /* ifm2html */
 
 /* Map function list */
 mapfuncs raw_mapfuncs = {
@@ -65,6 +66,9 @@ raw_map_room(vhash *room)
 {
     vlist *ex, *ey;
 
+    vlist *notes_ifm2html = vh_pget(room, "NOTE");
+    viter iter_ifm2html;
+
     output("\nroom: %d\n", vh_iget(room, "ID"));
     output("name: %s\n", vh_sgetref(room, "DESC"));
     output("rpos: %d %d\n", vh_iget(room, "X"), vh_iget(room, "Y"));
@@ -75,6 +79,12 @@ raw_map_room(vhash *room)
     if (ex != NULL && ey != NULL)
         while (vl_length(ex) > 0 && vl_length(ey) > 0)
             output("exit: %d %d\n", vl_ishift(ex), vl_ishift(ey));
+
+    if (notes_ifm2html != NULL) {
+        v_iterate(notes_ifm2html, iter_ifm2html)
+            output("note: %s\n", vl_iter_svalref(iter_ifm2html));
+    }
+
 }
 
 void
@@ -211,7 +221,39 @@ raw_task_entry(vhash *task)
     int score = vh_iget(task, "SCORE");
     viter iter;
 
+    vhash *item_ifm2html;
+    vlist *itemlist_ifm2html;
+    int type_ifm2html;
+
     output("\ntask: %d\n", vh_iget(task, "ID"));
+
+    type_ifm2html = vh_iget(task, "TYPE");
+    switch (type_ifm2html) {
+    case T_MOVE:
+      output("type: MOVE\n");
+      break;
+    case T_GET:
+      output("type: GET\n");
+      if ((item_ifm2html  = vh_pget(task, "DATA")) != NULL)
+          output("get: %d\n", vh_iget(item_ifm2html, "ID"));
+      break;
+    case T_DROP:
+      output("type: DROP\n");
+      break;
+    case T_GOTO:
+      output("type: GOTO\n");
+      break;
+    case T_USER:
+      output("type: USER\n");
+      if ((itemlist_ifm2html = vh_pget(task, "GIVE")) != NULL) {
+          v_iterate(itemlist_ifm2html, iter) {
+              item_ifm2html = vl_iter_pval(iter);
+              output("give: %d\n", vh_iget(item_ifm2html, "ID"));
+          }
+      }
+      break;
+    }
+
     output("name: %s\n", vh_sgetref(task, "DESC"));
 
     if (vh_exists(task, "TAG"))

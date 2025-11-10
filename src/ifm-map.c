@@ -338,8 +338,8 @@ setup_links(void)
     v_iterate(links, i) {
 	link = vl_iter_pval(i);
 
-        if (vh_iget(link, "HIDDEN"))
-            continue;
+/*         if (vh_iget(link, "HIDDEN")) */
+/*             continue; */
 
         if (vh_iget(link, "NOLINK"))
             continue;
@@ -403,6 +403,9 @@ setup_links(void)
         vl_ipush(xpos, x);
         vl_ipush(ypos, y);
         count = 0;
+
+        if (vh_iget(link, "HIDDEN"))
+            continue;
 
         /* Traverse direction list */
         if ((dirs = vh_pget(link, "DIR")) != NULL) {
