@@ -80,8 +80,8 @@ raw_map_room(vhash *room)
 {
     vlist *ex, *ey;
 
-    vlist *notes = vh_pget(room, "NOTE");
-    viter iter;
+    vlist *notes_ifm2html = vh_pget(room, "NOTE");
+    viter iter_ifm2html;
 
     printf("\nroom: %d\n", vh_iget(room, "ID"));
     put_string("name: %s\n", vh_sgetref(room, "DESC"));
@@ -95,9 +95,9 @@ raw_map_room(vhash *room)
         while (vl_length(ex) > 0 && vl_length(ey) > 0)
             printf("exit: %d %d\n", vl_ishift(ex), vl_ishift(ey));
 
-    if (notes != NULL) {
-        v_iterate(notes, iter)
-            put_string("note: %s\n", vl_iter_svalref(iter));
+    if (notes_ifm2html != NULL) {
+        v_iterate(notes_ifm2html, iter_ifm2html)
+            put_string("note: %s\n", vl_iter_svalref(iter_ifm2html));
     }
 
 }
