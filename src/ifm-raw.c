@@ -233,11 +233,11 @@ raw_task_entry(vhash *task)
     vlist *notes = vh_pget(task, "NOTE");
     vhash *room = vh_pget(task, "ROOM");
     vlist *cmds = vh_pget(task, "CMD");
-    vhash *item_ifm2html;
-    vlist *itemlist_ifm2html;
-    
     int score = vh_iget(task, "SCORE");
     viter iter;
+
+    vhash *item_ifm2html;
+    vlist *itemlist_ifm2html;
     int type_ifm2html;
 
     printf("\ntask: %d\n", vh_iget(task, "ID"));
