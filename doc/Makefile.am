@@ -84,16 +84,16 @@ install-doc: install-html
 install-html: $(ifmdocdir)
 	@ if test -d $(htmldir); then					\
 	   set -x;							\
-	   rm -rf $(ifmdocdir);						\
-	   mkdir -p $(ifmdocdir);					\
-	   cp -rf $(htmldir)/* $(ifmdocdir);				\
+	   rm -rf $(DESTDIR)$(ifmdocdir);				\
+	   mkdir -p $(DESTDIR)$(ifmdocdir);				\
+	   cp -rf $(htmldir)/* $(DESTDIR)$(ifmdocdir);			\
 	fi
 
 $(ifmdocdir):
-	- chmod u+w $(prefix)
-	$(mkinstalldirs) $(docdir)
-	- chmod u+w $(docdir)
-	$(mkinstalldirs) $(ifmdocdir)
+	- chmod u+w $(DESTDIR)$(prefix)
+	$(mkinstalldirs) $(DESTDIR)$(docdir)
+	- chmod u+w $(DESTDIR)$(docdir)
+	$(mkinstalldirs) $(DESTDIR)$(ifmdocdir)
 
 # Distribution stuff.
 
