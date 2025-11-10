@@ -17,7 +17,7 @@
 #include "ifm-util.h"
 #include "ifm-raw.h"
 #include "ifm-vars.h"
-#include "ifm-task.h"
+#include "ifm-task.h" /* ifm2html */
 
 /* Map function list */
 mapfuncs raw_mapfuncs = {
@@ -238,13 +238,12 @@ raw_task_entry(vhash *task)
     
     int score = vh_iget(task, "SCORE");
     viter iter;
-    int type;
-
-    type = vh_iget(task, "TYPE");
+    int type_ifm2html;
 
     printf("\ntask: %d\n", vh_iget(task, "ID"));
 
-    switch (type) {
+    type_ifm2html = vh_iget(task, "TYPE");
+    switch (type_ifm2html) {
     case T_MOVE:
       printf("type: MOVE\n");
       break;
