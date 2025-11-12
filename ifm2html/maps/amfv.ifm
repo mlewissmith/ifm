@@ -1,0 +1,1536 @@
+# http://www.eristic.net/games/infocom/amfv.html
+# http://infocom.byethost3.com/games/infocom/index.html
+
+room_width = 0.85;
+room_height = 0.85;
+room_text_fontsize = 16;
+item_text_fontsize = 12;
+
+title "A Mind Forever Voyaging";
+
+style ROAD;
+room_colour = "light gray";
+endstyle ROAD;
+
+style BUILDING;
+room_colour = "beige";
+#room_colour = "light blue";
+endstyle BUILDING;
+
+style PARK;
+room_colour = "light green";
+endstyle PARK;
+
+style SUBWAY;
+room_border_colour = "SteelBlue";
+room_shadow_colour = "SteelBlue";
+endstyle SUBWAY;
+
+style BIGROOM;
+#link_dashed = true;
+#link_colour = "beige";
+link_line_width = 12;
+endstyle BIGROOM;
+
+style NAMECHANGE;
+room_text_colour = "DarkRed";
+endstyle;
+
+style JOIN;
+room_colour = "white";
+room_shadow_xoff = 0;
+room_shadow_yoff = 0;
+room_border_dashed = true;
+room_text_font = "Times";
+endstyle;
+
+style MODE;
+room_colour = "black";
+room_text_colour = "GreenYellow";
+item_text_colour = "GreenYellow";
+endstyle;
+
+
+
+################################################################################
+# The Real World (2031)
+map "PRISM";
+room "Communications Mode" tag rCommunicationsMode
+     style MODE
+     note "\"You have a number of visual/audio units
+set up at various points around the complex. When you enter Communications Mode,
+you will be told where these units are, and how to activate them. When you have
+activated a unit in a particular location, you are effectively 'in that
+location.' You'll be able to see and hear what's going on, and talk to anyone
+there. You won't be able to pick up things in those locations, of course.\""
+     note "To move between modes, ENTER or GO TO <mode>."
+     start;
+room "Library Mode" tag rLibraryMode
+     style MODE
+     dir e 1 from rCommunicationsMode
+     note "\"This is a storehouse of information, arranged in
+directories which each contain a number of data files. When you enter Library
+Mode, the usual style of typing an input and pressing the RETURN (or ENTER) key
+is suspended. Follow the instructions that appear on your screen to access the
+information in the files.\""
+     score 5
+     nolink;
+room "Interface Mode" tag rInterfaceMode
+     style MODE
+     dir e 2 from rCommunicationsMode
+     note "\"There are several subsidiary computers and complex
+system controllers connected to you. More may be added over the course of the
+story. By entering Interface Mode, you will be able to 'speak' to these other
+devices, get information from them, possibly give them orders. You interface
+with a device the same way that you would speak to a character in the story. For
+example: TRAFFIC COMPUTER, SET EVENING RUSH HOUR END TO 5:00 or HVAC COMPUTER,
+TURN ON VENTILATION IN GAMMA SECTOR. Data about these interfaceable devices can
+be found in Library Mode.\""
+     nolink;
+room "Sleep Mode" tag rSleepMode
+     style MODE
+     dir e 3 from rCommunicationsMode
+     note "\"Because sleep is a psychological as well as a physical
+need, Sleep Mode has been provided to rest your conscious mind. Approximately
+six hours will pass during an average sleep period.\""
+     nolink;
+room "Simulation Mode" tag rSimulationMode
+     style MODE
+     dir e 4 from rCommunicationsMode
+     note "\"This is the process that was used to 'program' you
+and develop you into a thinking, creative machine. Now, that same process,
+programmed with the parameters of the Plan, will allow you to simulate the
+future in amazing detail.  ABORT will get you out of Simulation Mode at any
+time.  Because only you see what happens in Simulation Mode, you'll want to use
+the RECORD feature to save what you see, so that others in the 'real world' can
+view your experiences. RECORD or RECORD ON will activate it, and RECORD OFF will
+de-activate it. Be warned, however, that RECORD makes an enormous demand on your
+core memory, and you will only be able to record a limited amount of
+experiences. Everything you see, feel, and learn in Simulation Mode can be
+recorded. You can also use the RECORD feature in Communications Mode if you
+want.\""
+     nolink;
+
+link rCommunicationsMode to rSleepMode
+     cmd to "ENTER SLEEP MODE"
+     cmd from "ENTER COMMUNICATION MODE"
+     hidden ;
+link rCommunicationsMode to rLibraryMode
+     cmd to "ENTER LIBRARY MODE"
+     cmd from "(exit)"
+     hidden;
+link rCommunicationsMode to rInterfaceMode
+     cmd to "ENTER INTERFACE MODE"
+     cmd from "ENTER COMMUNICATION MODE"
+     hidden;
+link rCommunicationsMode to rSimulationMode
+     cmd to "ENTER SIMULATION MODE"
+     cmd from "ABORT"
+     hidden;
+link rSleepMode to rInterfaceMode
+     cmd to "ENTER INTERFACE MODE"
+     cmd from "ENTER SLEEP MODE"
+     hidden;
+link rInterfaceMode to rLibraryMode
+     cmd to "ENTER LIBRARY MODE"
+     hidden
+     oneway;
+link rInterfaceMode to rSimulationMode
+     cmd to "ENTER SIMULATION MODE"
+     hidden
+     oneway;
+link rSleepMode to rSimulationMode
+     cmd to "ENTER SIMULATOIN MODE"
+     hidden
+     oneway;
+link rSleepMode to rLibraryMode
+     cmd to "ENTER LIBRARY MODE"
+     hidden
+     oneway;
+
+room "PRISM Project Control Center [PPCC]" tag rPPCC
+     dir nw from rCommunicationsMode
+     cmd to "PPCC"
+     cmd from "(You are already in Communications Mode)";
+room "Research Center Rooftop [RCRO]" tag rRCRO
+     dir n from rCommunicationsMode
+     cmd to "RCRO"
+     cmd from "(You are already in Communications Mode)";
+room "Dr Perelman's Office [PEOF]" tag rPEOF
+     dir ne from rCommunicationsMode
+     cmd to "PEOF"
+     cmd from "(You are already in Communications Mode)";
+room "PRISM Facility Cafeteria [PCAF]" tag rPCAF
+     dir sw from rCommunicationsMode
+     cmd to "PCAF"
+     cmd from "(You are already in Communications Mode)";
+room "Maintenance Core [MACO]" tag rMACO
+     dir s from rCommunicationsMode
+     cmd to "MACO"
+     cmd from "(You are already in Communications Mode)";
+room "World News Network Feed [WNNF]" tag rWNNF
+     dir se from rCommunicationsMode
+     cmd to "WNNF"
+     cmd from "(You are already in Communications Mode)";
+
+room "[Kennedy Park]" tag r2041
+     style JOIN
+     dir n from rSimulationMode
+     join rKennedyParkSE;
+room "[Elm & University]" tag r2051
+     style JOIN
+     dir ne from rSimulationMode
+     join rElmUniversityTubeStation;
+room "[Southway & River]" tag r2061
+     style JOIN
+     dir e from rSimulationMode
+     join rSouthwayRiver;
+room "[Bodanski Square]" tag r2071
+     style JOIN
+     dir se from rSimulationMode
+     join rBodanskiSquare;
+room "[Main & Wicker]" tag r2081
+     style JOIN
+     dir s from rSimulationMode
+     join rMainWicker;
+room "[Solarium]" tag r2091
+     style JOIN
+     dir sw from rSimulationMode
+     join rSolarium2091;
+
+item "Decoder Wheel" tag iDecoderWheel
+     in rSimulationMode
+     keep
+     note "AQUA:        11=66, 15=47, 16=48, 18=67, 22=96, 27=70, 28=13, 29=51, 33=43, 34=90, 37=55, 40=81, 46=17, 49=41, 50=78, 52=92, 53=23, 58=83, 60=19, 61=20, 64=73, 68=39, 77=31, 82=88, 85=62, 86=54, 89=57, 91=99, 93=84, 94=12, 95=25, 98=36"
+     note "BLACK:       11=23, 15=19, 16=67, 18=83, 22=73, 27=12, 28=62, 29=47, 33=92, 34=57, 37=17, 40=90, 46=13, 49=20, 50=81, 52=88, 53=31, 58=41, 60=78, 61=25, 64=84, 68=66, 77=43, 82=54, 85=51, 86=48, 89=96, 91=39, 93=70, 94=55, 95=36, 98=99"
+     note "BLUE:        11=39, 15=51, 16=54, 18=48, 22=57, 27=84, 28=17, 29=62, 33=31, 34=81, 37=12, 40=78, 46=55, 49=83, 50=19, 52=43, 53=66, 58=67, 60=47, 61=41, 64=96, 68=99, 77=23, 82=92, 85=13, 86=88, 89=90, 91=36, 93=73, 94=70, 95=20, 98=25"
+     note "BROWN:       11=20, 15=55, 16=31, 18=43, 22=19, 27=90, 28=84, 29=12, 33=99, 34=51, 37=96, 40=62, 46=73, 49=88, 50=13, 52=39, 53=25, 58=92, 60=17, 61=54, 64=78, 68=41, 77=36, 82=66, 85=70, 86=23, 89=47, 91=83, 93=81, 94=57, 95=48, 98=67"
+     note "DARKGREEN:   11=31, 15=78, 16=83, 18=41, 22=84, 27=55, 28=51, 29=19, 33=88, 34=96, 37=13, 40=57, 46=62, 49=25, 50=90, 52=54, 53=43, 58=20, 60=81, 61=36, 64=70, 68=23, 77=92, 82=48, 85=47, 86=67, 89=73, 91=66, 93=12, 94=17, 95=99, 98=39"
+     note "DARKGREY:    11=99, 15=62, 16=88, 18=54, 22=90, 27=73, 28=55, 29=13, 33=23, 34=78, 37=70, 40=19, 46=12, 49=67, 50=47, 52=31, 53=39, 58=48, 60=51, 61=83, 64=57, 68=36, 77=66, 82=43, 85=17, 86=92, 89=81, 91=25, 93=96, 94=84, 95=41, 98=20"
+     note "LIGHTBLUE:   11=36, 15=13, 16=92, 18=88, 22=81, 27=96, 28=12, 29=17, 33=66, 34=19, 37=84, 40=47, 46=70, 49=48, 50=51, 52=23, 53=99, 58=54, 60=62, 61=67, 64=90, 68=25, 77=39, 82=31, 85=55, 86=43, 89=78, 91=20, 93=57, 94=73, 95=83, 98=41"
+     note "LIGHTGREEN:  11=41, 15=12, 16=23, 18=31, 22=47, 27=81, 28=73, 29=70, 33=36, 34=62, 37=57, 40=13, 46=96, 49=92, 50=17, 52=99, 53=20, 58=43, 60=55, 61=88, 64=19, 68=83, 77=25, 82=39, 85=84, 86=66, 89=51, 91=67, 93=78, 94=90, 95=54, 98=48"
+     note "LIGHTGREY:   11=48, 15=73, 16=99, 18=39, 22=13, 27=47, 28=90, 29=96, 33=41, 34=55, 37=78, 40=12, 46=81, 49=23, 50=70, 52=20, 53=67, 58=66, 60=84, 61=31, 64=62, 68=54, 77=83, 82=25, 85=57, 86=36, 89=17, 91=88, 93=51, 94=19, 95=43, 98=92"
+     note "ORANGE:      11=83, 15=70, 16=66, 18=23, 22=51, 27=78, 28=96, 29=84, 33=25, 34=13, 37=90, 40=17, 46=57, 49=43, 50=55, 52=36, 53=41, 58=31, 60=12, 61=92, 64=47, 68=67, 77=20, 82=99, 85=73, 86=39, 89=62, 91=48, 93=19, 94=81, 95=88, 98=54"
+     note "PINK:        11=25, 15=17, 16=43, 18=92, 22=78, 27=57, 28=70, 29=55, 33=39, 34=47, 37=73, 40=51, 46=84, 49=54, 50=62, 52=66, 53=36, 58=88, 60=13, 61=48, 64=81, 68=20, 77=99, 82=23, 85=12, 86=31, 89=19, 91=41, 93=90, 94=96, 95=67, 98=83"
+     note "PURPLE:      11=54, 15=96, 16=36, 18=99, 22=17, 27=51, 28=81, 29=57, 33=83, 34=12, 37=19, 40=70, 46=78, 49=66, 50=84, 52=41, 53=48, 58=39, 60=73, 61=23, 64=13, 68=88, 77=67, 82=20, 85=90, 86=25, 89=55, 91=92, 93=62, 94=47, 95=31, 98=43"
+     note "RED:         11=67, 15=84, 16=39, 18=66, 22=62, 27=19, 28=57, 29=73, 33=20, 34=17, 37=81, 40=55, 46=90, 49=31, 50=12, 52=25, 53=83, 58=23, 60=70, 61=43, 64=51, 68=48, 77=41, 82=36, 85=96, 86=99, 89=13, 91=54, 93=47, 94=78, 95=92, 98=88"
+     note "TAN:         11=43, 15=81, 16=41, 18=20, 22=70, 27=17, 28=47, 29=78, 33=54, 34=73, 37=62, 40=96, 46=51, 49=36, 50=57, 52=48, 53=92, 58=25, 60=90, 61=99, 64=12, 68=31, 77=88, 82=67, 85=19, 86=83, 89=84, 91=23, 93=55, 94=13, 95=39, 98=66"
+     note "WHITE:       11=88, 15=57, 16=25, 18=36, 22=55, 27=62, 28=78, 29=90, 33=67, 34=70, 37=47, 40=84, 46=19, 49=39, 50=73, 52=83, 53=54, 58=99, 60=96, 61=66, 64=17, 68=92, 77=48, 82=41, 85=81, 86=20, 89=12, 91=43, 93=13, 94=51, 95=23, 98=31"
+     note "YELLOW:      11=92, 15=90, 16=20, 18=25, 22=12, 27=13, 28=19, 29=81, 33=48, 34=84, 37=51, 40=73, 46=47, 49=99, 50=96, 52=67, 53=88, 58=36, 60=57, 61=39, 64=55, 68=43, 77=54, 82=83, 85=78, 86=41, 89=70, 91=31, 93=17, 94=62, 95=66, 98=23"
+;
+
+# The Real World (2031)
+################################################################################
+
+################################################################################
+# ROCKVIL, SOUTH DAKOTA
+########################################
+map "N Rockvil";
+
+room "Park Entrance" tag rParkEntrance
+     style ROAD
+     style NAMECHANGE
+     note "2071: Entrance to Halley Estates"
+     exit s;
+room "Aquarium & Kennedy" tag rAquariumKennedy
+     style ROAD
+     dir n n from rParkEntrance;
+room "River & Kennedy" tag rRiverKennedy
+     style ROAD
+     dir n n n from rAquariumKennedy;
+room "Aquarium & River" tag rAquariumRiver
+     style ROAD
+     dir e e e from rAquariumKennedy;
+room "Aquarium & Park" tag rAquariumPark
+     style ROAD
+     dir w w w from rAquariumKennedy;
+room "Zoo Entrance" tag rZooEntrance
+     style ROAD
+     dir w w w from rAquariumPark;
+room "Aquarium Underpass" tag rAquariumUnderpass
+     style ROAD
+     dir w from rZooEntrance;
+room "Bodanski Square" tag rBodanskiSquare
+     style ROAD
+     style SUBWAY
+     dir s s from rAquariumRiver
+     exit s sw;
+room "Museum Entrance" tag rMuseumEntrance
+     style ROAD
+     dir e e e from rBodanskiSquare;
+room "Airportway & River" tag rAirportwayRiver
+     style ROAD
+     dir n n from rAquariumRiver;
+link rRiverKennedy to rAirportwayRiver dir e e e s;
+room "River & Park" tag rRiverPark
+     style ROAD
+     dir w w w from rRiverKennedy;
+room "Water Tower" tag rWaterTower
+     style ROAD
+     dir nw from rRiverPark;
+room "Park Underpass" tag rParkUnderpass
+     style ROAD
+     dir w from rWaterTower;
+room "Symphony Entrance" tag rSymphonyEntrance
+     style ROAD
+     dir e e e from rAirportwayRiver;
+room "Airport Entrance" tag rAirportEntrance
+     style ROAD
+     dir ne from rSymphonyEntrance;
+
+join rCentreKennedy to rParkEntrance
+     go n;
+join rCentreKennedy to rBodanskiSquare
+     go ne;
+join rMidlandRiver to rBodanskiSquare
+     go n;
+
+
+room "Skycar Lot" tag rSkycarLot_BodanskiSquare
+     style BUILDING
+     dir w from rBodanskiSquare;
+room "Skycar Lot" tag rSkycarLot_ParkEntrance
+     style BUILDING
+     dir e from rParkEntrance;
+link rSkycarLot_ParkEntrance to rSkycarLot_BodanskiSquare style BIGROOM;
+room "First Methodist Church" tag rFirstMethodistChurch
+     style BUILDING
+     style NAMECHANGE
+     note "2071: Vacant Lot"
+     dir sw from rAquariumRiver;
+link rSkycarLot_BodanskiSquare to rFirstMethodistChurch;
+room "Dental School" tag rDentalSchool
+     style BUILDING
+     dir se from rAquariumKennedy;
+room "Chun Building" tag rChunBuilding
+     style BUILDING
+     dir ne from rAquariumKennedy;
+room "Bank" tag rBank
+     style BUILDING
+     dir nw from rAquariumKennedy;
+room "Aquarium" tag rAquariumE
+     style BUILDING
+     dir sw from rAquariumKennedy;
+room "Aquarium" tag rAquariumW
+     style BUILDING
+     dir se from rAquariumPark;
+link rAquariumW to rAquariumE style BIGROOM;
+room "Service Station" tag rServiceStation
+     style BUILDING
+     dir nw from rAquariumPark;
+room "Skycar Lot" tag rSkycarLot_AquariumPark
+     style BUILDING
+     dir sw from rAquariumPark;
+room "Burger Meister" tag rBurgerMeister
+     style BUILDING
+     style NAMECHANGE
+     note "2061: Burgerworld"
+     note "2071: Bar"
+     dir ne from rAquariumPark;
+room "Zoo" tag rZoo
+     style PARK
+     dir s from rZooEntrance;
+link rZoo to rSkycarLot_AquariumPark;
+room "Halley Park West" tag rHalleyParkWestW
+     style PARK
+     style NAMECHANGE
+     note "2071: NO ACCESS"
+     dir se from rZoo
+     exit s;
+link rZoo to rHalleyParkWestW
+     dir s;
+room "Halley Park West" tag rHalleyParkWestE
+     style PARK
+     style SUBWAY
+     style NAMECHANGE
+     note "2071: NO ACCESS"
+     dir s from rSkycarLot_AquariumPark
+     exit se;
+link rHalleyParkWestE to rHalleyParkWestW style BIGROOM;
+room "Halley Park East" tag rHalleyParkEast
+     style PARK
+     style NAMECHANGE
+     note "2071: NO ACCESS"
+     dir w w from rParkEntrance
+     exit sw s;
+link rHalleyParkEast to rHalleyParkWestE;
+link rHalleyParkEast to rAquariumW;
+join rHalleyParkWestE to rHalleyPark
+     go se;
+join rHalleyParkEast to rHalleyPark
+     go sw;
+join rHalleyParkEast to rHuangHall
+     go s;
+room "Train Station" tag rTrainStation
+     style BUILDING
+     style NAMECHANGE
+     dir se from rBodanskiSquare
+     exit sw
+     note "2051: Church Lobby";
+join rTrainStation to rMidlandRiver
+     go sw;
+
+room "Railroad Museum" tag rRailroadMuseum
+     style BUILDING
+     style NAMECHANGE
+     note "2061: NO ACCESS"
+     dir s from rMuseumEntrance;
+room "Riverside Park" tag rRiversidePark
+     style PARK
+     style NAMECHANGE
+     note "2071: NO ACCESS"
+     dir e e from rMuseumEntrance;
+link rRailroadMuseum to rRiversidePark
+     dir e ne;
+room "Simon's" tag rSimons
+     style BUILDING
+     dir ne from rBodanskiSquare;
+room "Pickford Theatre" tag rPickfordTheatre
+     style BUILDING
+     dir e from rAquariumRiver;
+room "Colonial Hotel" tag rColonialHotel
+     style BUILDING
+     dir se from rAirportwayRiver;
+room "Skycar Lot" tag rSkycarLot_SymphonyEntrance
+     style BUILDING
+     dir sw from rSymphonyEntrance;
+link rColonialHotel to rSkycarLot_SymphonyEntrance;
+room "Cinema" tag rCinema
+     style BUILDING
+     dir nw from rMuseumEntrance;
+room "Skycar Lot" tag rSkycarLot_MuseumEntrance
+     style BUILDING
+     dir n from rMuseumEntrance;
+room "Symphony Hall" tag rSymphonyHall
+     style BUILDING
+     style NAMECHANGE
+     note "2071: NO ACCESS"
+     dir s from rSymphonyEntrance;
+link rSymphonyHall to rSkycarLot_SymphonyEntrance;
+link rSymphonyHall to rSkycarLot_MuseumEntrance;
+link rCinema to rSkycarLot_SymphonyEntrance;
+link rCinema to rSkycarLot_MuseumEntrance;
+link rRiversidePark to rSkycarLot_MuseumEntrance
+     dir nw w;
+link rRiversidePark to rSymphonyHall
+     dir n nw;
+room "Terminal" tag rTerminal
+     style BUILDING
+     style SUBWAY
+     dir n from rAirportEntrance;
+room "Base Gate" tag rBaseGate
+     style BUILDING
+     dir n nw from rSymphonyEntrance;
+room "Wells Theatre" tag rWellsTheatre
+     style BUILDING
+     dir sw from rAirportwayRiver;
+link rWellsTheatre to rAquariumRiver;
+room "Rockvil High" tag rRockvilHighW
+     style BUILDING
+     style NAMECHANGE
+     note "2061: The Vincent School"
+     dir w from rAirportwayRiver;
+room "Rockvil High" tag rRockvilHighE
+     style BUILDING
+     style NAMECHANGE
+     dir se from rRiverKennedy;
+link rRockvilHighW to rRockvilHighE style BIGROOM;
+room "Athletic Field" tag rAthleticFieldE
+     style BUILDING
+     dir sw from rRiverKennedy;
+room "Athletic Field" tag rAthleticFieldW
+     style BUILDING
+     dir se from rRiverPark;
+link rAthleticFieldW to rAthleticFieldE style BIGROOM;
+room "Stadium Lot C" tag rStadiumLotC
+     style BUILDING
+     dir sw from rWaterTower;
+room "Rockvil Stadium" tag rRockvilStadium
+     style BUILDING
+     style SUBWAY
+     dir sw from rStadiumLotC;
+room "Stadium Lot A" tag rStadiumLotA
+     style BUILDING
+     dir s from rRockvilStadium;
+link rStadiumLotA to rZooEntrance;
+room "Stadium Lot B" tag rStadiumLotB
+     style BUILDING
+     dir w s w from rRiverPark;
+link rStadiumLotB to rRockvilStadium;
+room "Rockvil Reformatory" tag rRockvilReformatory
+     style BUILDING
+     dir n from rWaterTower;
+
+room "[Halley & University]" style JOIN
+     dir s from rHalleyParkWestW nolink;
+room "[Halley & Park]" style JOIN
+     dir se from rHalleyParkWestE nolink;
+room "[Huang Hall]" style JOIN
+     dir s from rHalleyParkEast nolink;
+room "[Centre & Kennedy]" style JOIN
+     dir s from rParkEntrance nolink;
+room "[Centre & Kennedy]" style JOIN
+     dir sw from rBodanskiSquare nolink;
+room "[Midland & River]" style JOIN
+     dir s from rBodanskiSquare nolink;
+
+########################################
+map "Rockvil Central";
+
+room "Elm & Park" tag rElmPark
+     style ROAD
+     exit w;
+room "Elm & Kennedy" tag rElmKennedy
+     style ROAD
+     dir e e e from rElmPark;
+room "Elm & River" tag rElmRiver
+     style ROAD
+     style SUBWAY
+     dir e e e from rElmKennedy;
+room "Main & Kennedy" tag rMainKennedy
+     style ROAD
+     dir n n n from rElmKennedy;
+room "Rockvil Center" tag rRockvilCenter
+     style ROAD
+     dir w w w from rMainKennedy;
+room "Main & River" tag rMainRiver
+     style ROAD
+     dir e e e from rMainKennedy
+     exit e;
+room "Centre & Kennedy" tag rCentreKennedy
+     style ROAD
+     dir ne ne ne from rRockvilCenter
+     exit n ne;
+room "Southway & Kennedy" tag rSouthwayKennedy
+     style ROAD
+     dir s s s from rElmKennedy;
+room "Halley & Park" tag rHalleyPark
+     style ROAD
+     exit w nw ne
+     dir n n n from rRockvilCenter;
+room "Southway & Park" tag rSouthwayPark
+     style ROAD
+     dir s s s from rElmPark;
+room "Midland & River" tag rMidlandRiver
+     style ROAD
+     dir n n n from rMainRiver
+     exit n e ne;
+room "Southway & River" tag rSouthwayRiver
+     style ROAD
+     dir s s s from rElmRiver;
+room "Bend" tag rBend
+     style ROAD
+     exit se
+     dir s s from rSouthwayRiver;
+
+link rCentreKennedy to rMainKennedy;
+link rRockvilCenter to rElmPark;
+link rSouthwayRiver to rSouthwayKennedy;
+link rSouthwayKennedy to rSouthwayPark;
+link rElmRiver to rMainRiver;
+
+
+
+room "Kennedy Park" tag rKennedyParkSE
+     style PARK
+     style NAMECHANGE
+     dir nw from rElmKennedy
+     note "2061: Construction Site"
+     note "2071: NO ACCESS";
+room "Kennedy Park" tag rKennedyParkSW
+     style PARK
+     style NAMECHANGE
+     dir ne from rElmPark
+     note "2061: Construction Site"
+     note "2071: NO ACCESS";
+room "Kennedy Park" tag rKennedyParkNE
+     style PARK
+     style NAMECHANGE
+     dir sw from rMainKennedy
+     note "2061: Construction Site"
+     note "2071: NO ACCESS";
+link rKennedyParkSW to rKennedyParkSE style BIGROOM;
+link rKennedyParkNE to rKennedyParkSE style BIGROOM;
+
+room "Dunbars" tag rDunbars
+     style BUILDING
+     style NAMECHANGE
+     note "2071: NO ACCESS"
+     dir se from rRockvilCenter;
+room "Police Station" tag rPoliceStation
+     style BUILDING
+     dir sw from rElmPark;
+room "Courthouse" tag rCourthouse
+     style BUILDING
+     dir nw from rElmPark;
+room "Post Office" tag rPostOffice
+     style BUILDING
+     dir se from rElmPark;
+room "Hospital" tag rHospital
+     style BUILDING
+     dir sw from rElmKennedy;
+room "Stock Exchange" tag rStockExchangeW
+     style BUILDING
+     dir ne from rElmKennedy;
+room "Rockvil Mall" tag rRockvilMallW
+     style BUILDING
+     dir se from rElmKennedy;
+room "Stock Exchange" tag rStockExchangeE
+     style BUILDING
+     dir nw from rElmRiver;
+link rStockExchangeE to rStockExchangeW style BIGROOM;
+room "Rockvil Mall" tag rRockvilMallE
+     style BUILDING
+     dir sw from rElmRiver;
+link rRockvilMallW to rRockvilMallE style BIGROOM;
+room "Joybooth" tag rJoybooth
+     style BUILDING
+     style NAMECHANGE
+     note "2051: NO ACCESS"
+     note "2061: NO ACCESS"
+     note "2071: reopened?"
+     dir e e from rRockvilMallE;
+room "Heiman Village" tag rHeimanVillageS
+     style BUILDING
+     exit e
+     dir e from rElmRiver;
+room "City Hall" tag rCityHall
+     style BUILDING
+     dir w from rRockvilCenter;
+room "Skybus Terminal" tag rSkybusTerminal
+     style BUILDING
+     style SUBWAY
+     style NAMECHANGE
+     note "2071: NO ACCESS"
+     dir nw from rMainKennedy;
+room "Health Center" tag rHealthCenter
+     style BUILDING
+     style NAMECHANGE
+     note "2071: Serf Housing"
+     dir ne from rMainRiver;
+room "Heiman Village" tag rHeimanVillageN
+     style BUILDING
+     dir se from rMainRiver;
+link rHeimanVillageN to rHeimanVillageS style BIGROOM;
+room "Halley Museum" tag rHalleyMuseum
+     style BUILDING
+     style NAMECHANGE
+     note "2061: NO ACCESS"
+     dir sw from rHalleyPark;
+room "Huang Hall" tag rHuangHall
+     style BUILDING
+     dir w w from rCentreKennedy
+     exit n;
+link rHuangHall to rHalleyPark;
+room "Veldran Hotel" tag rVeldranHotelN
+     style BUILDING
+     dir e from rCentreKennedy;
+room "Veldran Hotel" tag rVeldranHotelS
+     style BUILDING
+     dir se from rCentreKennedy;
+link rVeldranHotelN to rVeldranHotelS style BIGROOM;
+room "ALI Building"
+     style BUILDING
+     dir w from rMidlandRiver;
+room "Skycar Lot" tag rSkycarLot_MidlandRiver
+     style BUILDING
+     dir se from rMidlandRiver;
+link rSkycarLot_MidlandRiver to rHealthCenter;
+room "Skycar Lot" tag rSkycarLot_RockvilMallW
+     style BUILDING
+     dir ne from rSouthwayKennedy;
+room "Skycar Lot" tag rSkycarLot_RockvilMallE
+     style BUILDING
+     dir nw from rSouthwayRiver;
+link rSkycarLot_RockvilMallE to rSkycarLot_RockvilMallW style BIGROOM;
+link rRockvilMallE to rSkycarLot_RockvilMallE;
+room "Construction Site" tag rConstructionSite_SouthwayKennedy
+     style BUILDING
+     style NAMECHANGE
+     note "2051: NO ACCESS"
+     dir nw from rSouthwayKennedy;
+room "Hospital Annex" tag rHospitalAnnex
+     style BUILDING
+     dir ne from rSouthwayPark;
+link rHospitalAnnex to rHospital;
+room "Main Library" tag rMainLibrary
+     style BUILDING
+     dir nw from rSouthwayPark;
+room "Parkview Apartments" tag rParkviewApartments
+     style BUILDING
+     dir w from rSouthwayPark
+     exit w;
+room "Foodville" tag rFoodville_SouthwayPark
+     style BUILDING
+     dir s from rSouthwayPark;
+room "Skycar Lot" tag rSkycarLot_Foodville
+     style BUILDING
+     dir sw from rFoodville_SouthwayPark;
+room "Southway Underpass" tag rSouthwayUnderpass
+     style ROAD
+     dir sw from rSouthwayPark;
+room "Firehouse" tag rFirehouse
+     style BUILDING
+     dir nw from rSouthwayUnderpass;
+room "Row of Houses" tag rRowOfHousesW
+     style BUILDING
+     dir se from rSouthwayPark;
+room "Row of Houses" tag rRowOfHouses
+     style BUILDING
+     dir s from rSouthwayKennedy;
+room "Row of Houses" tag rRowOfHousesE
+     style BUILDING
+     dir sw from rSouthwayRiver;
+link rRowOfHouses to rRowOfHousesW style BIGROOM;
+link rRowOfHouses to rRowOfHousesE style BIGROOM;
+room "Laundromat" tag rLaundromat
+     style BUILDING
+     dir w from rBend;
+room "Drug Store" tag rDrugStore
+     style BUILDING
+     dir sw from rBend;
+room "Hardware Store" tag rHardwareStore
+     style BUILDING
+     dir s from rBend;
+room "Construction Site" tag rConstructionSite_Bend
+     style BUILDING
+     style NAMECHANGE
+     note "2051: Heiman World"
+     dir ne from rBend;
+room "Construction Site" tag rConstructionSite_SouthwayRiver
+     style BUILDING
+     style NAMECHANGE
+     note "2051: Heiman World"
+     dir e from rSouthwayRiver;
+link rConstructionSite_SouthwayRiver to rConstructionSite_Bend style BIGROOM;
+
+
+room "[Halley & University]" style JOIN
+     dir w from rHalleyPark nolink;
+room "[Halley Park West]" style JOIN
+     dir nw from rHalleyPark nolink;
+room "[Halley Park East]" style JOIN
+     dir ne from rHalleyPark nolink;
+room "[Park Entrance]" style JOIN
+     dir n from rCentreKennedy nolink;
+room "[Bodanski Square]" style JOIN
+     dir ne from rCentreKennedy nolink;
+room "[Bodanski Square]" style JOIN
+     dir n from rMidlandRiver nolink;
+room "[Train Station]" style JOIN
+     dir ne from rMidlandRiver nolink;
+room "[Midland & Church]" style JOIN
+     dir e from rMidlandRiver nolink;
+room "[Main & Church]" style JOIN
+     dir e from rMainRiver nolink;
+room "[Church Street Park]" style JOIN
+     dir e from rHeimanVillageS nolink;
+room "[Wicker & River]" style JOIN
+     dir se from rBend nolink;
+room "[Elm & University]" style JOIN
+     dir w from rElmPark nolink;
+
+
+########################################
+map "W Rockvil";
+
+room "Halley & University" tag rHalleyUniversity
+     style ROAD
+     exit e n;
+room "Interchange" tag rInterchange
+     style ROAD
+     dir w from rHalleyUniversity;
+room "Rockvil University" tag rRockvilUniversity
+     style ROAD
+     dir s s from rHalleyUniversity;
+room "Elm & University" tag rElmUniversity
+     dir s se from rRockvilUniversity
+     style ROAD
+     style SUBWAY
+     exit e;
+
+join rHalleyPark to rHalleyUniversity
+     go w;
+join rElmPark to rElmUniversity
+     go w;
+join rHalleyParkWestW to rHalleyUniversity
+     go s;
+
+room "Elm Underpass" tag rElmUnderpass
+     style ROAD
+     dir w w from rElmUniversity;
+
+room "Ezzi's Bar" tag rEzziBar
+     style BUILDING
+     dir n from rElmUnderpass;
+room "Roy's Pagoda" tag rRoysPagoda
+     style BUILDING
+     dir s from rElmUnderpass;
+room "University Heights" tag rUniversityHeights
+     style BUILDING
+     dir s from rElmUniversity;
+room "Student Union" tag rStudentUnion
+     style BUILDING
+     style NAMECHANGE
+     note "2071: NO ACCESS"
+     dir ne from rRockvilUniversity;
+room "Lecture Hall" tag rLectureHall
+     style BUILDING
+     style NAMECHANGE
+     note "2071: NO ACCESS"
+     dir se from rRockvilUniversity;
+room "Dorm" tag rDorm
+     style BUILDING
+     dir w from rRockvilUniversity;
+
+room "[Halley Park West]" style JOIN
+     dir n from rHalleyUniversity nolink;
+room "[Halley & Park]" style JOIN
+     dir e from rHalleyUniversity nolink;
+room "[Elm & Park]" style JOIN
+     dir e from rElmUniversity nolink;
+
+########################################
+map "Parkview Apartments";
+room "Hall Near Your Apartment" tag rApartmentHallway
+     style BUILDING
+     exit e;
+room "Living Room" tag rLivingRoom
+     style BUILDING
+     dir n from rApartmentHallway;
+room "Bedroom" tag rBedroom
+     style BUILDING
+     dir n from rLivingRoom;
+room "Kitchen" tag rKitchen
+     style BUILDING
+     dir e from rLivingRoom;
+room "Bathroom" tag rBathroom
+     style BUILDING
+     dir e from rBedroom;
+
+join rParkviewApartments to rApartmentHallway
+     go w;
+
+room "[Parkview Apartments]" style JOIN
+     dir e from rApartmentHallway nolink;
+
+########################################
+map "E Rockvil";
+
+room "Main & Church" tag rMainChurch
+     style ROAD
+     exit w;
+room "Main & Wicker" tag rMainWicker
+     style ROAD
+     exit s
+     dir e e e from rMainChurch;
+room "Main Street Bridge" tag rMainStreetBridge
+     style ROAD
+     dir e from rMainWicker;
+room "Church Entrance" tag rChurchEntrance
+     style ROAD
+     style NAMECHANGE
+     note "2071: Street By Vacant Lot"
+     dir n n from rMainChurch;
+room "Midland & Church" tag rMidlandChurch
+     style ROAD
+     dir n n from rChurchEntrance
+     exit w;
+room "Church Street Park" tag rChurchStreetPark
+     style PARK
+     style NAMECHANGE
+     note "2061: Church Street City"
+     dir s s from rMainChurch
+     exit w;
+
+join rChurchStreetPark to rHeimanVillageS
+     go w;
+join rMainRiver to rMainChurch
+     go e;
+join rMidlandChurch to rMidlandRiver
+     go e;
+
+room "St Michael's" tag rStMichaels
+     style BUILDING
+     style NAMECHANGE
+     note "2061: NO ACCESS"
+     note "2071: Vacant Lot"
+     dir w from rChurchEntrance;
+room "Construction Site" tag rConstructionSite_ChurchEntranceNW
+     style BUILDING
+     style NAMECHANGE
+     note "2051: Rectory"
+     note "2061: NO ACCESS"
+     note "2071: Vacant Lot"
+     dir nw from rChurchEntrance;
+room "Construction Site" tag rConstructionSite_MainChurchSW
+     style BUILDING
+     style NAMECHANGE
+     note "2051: NO ACCESS"
+     dir sw from rMainChurch;
+room "Construction Site" tag rConstructionSite_MainChurchNW
+     style BUILDING
+     style NAMECHANGE
+     note "2051: NO ACCESS"
+     dir nw from rMainChurch;
+room "Church Street Apartments" tag rChurchStreetApartments
+     style BUILDING
+     dir se from rMainChurch;
+room "Foodville" tag rFoodville_MainWicker
+     style BUILDING
+     dir sw from rMainWicker;
+room "The Coachman" tag rTheCoachman
+     style BUILDING
+     dir se from rMainWicker;
+room "Cemetery" tag rCemeterySW
+     style PARK
+     dir ne from rMainChurch;
+room "Cemetery" tag rCemeterySE
+     style PARK
+     dir n from rMainWicker;
+room "Cemetery" tag rCemeteryNW
+     style PARK
+     dir se from rMidlandChurch;
+room "Cemetery" tag rCemeteryW
+     style PARK
+     dir e from rChurchEntrance;
+
+link rConstructionSite_MainChurchNW to rChurchEntrance;
+link rMidlandChurch to rCemeteryNW dir e oneway;
+link rCemeteryNW to rCemeteryW style BIGROOM;
+link rCemeteryW to rCemeterySW style BIGROOM;
+link rCemeterySW to rCemeterySE style BIGROOM;
+link rConstructionSite_ChurchEntranceNW to rMidlandChurch;
+
+room "[Midland & River]" style JOIN
+     dir w from rMidlandChurch nolink;
+room "[Main & River]" style JOIN
+     dir w from rMainChurch nolink;
+room "[Heiman Village]" style JOIN
+     dir w from rChurchStreetPark nolink;
+room "[Wicker & Pier]" style JOIN
+     dir s from rMainWicker nolink;
+
+
+
+########################################
+map "SE Rockvil";
+
+room "Wicker & River" tag rWickerRiver
+     style ROAD
+     style SUBWAY
+     exit nw;
+room "Factory Entrance" tag rFactoryEntrance
+     style ROAD
+     dir ne from rWickerRiver;
+room "Wicker & Pier" tag rWickerPier
+     style ROAD
+     exit ne
+     dir ne ne from rFactoryEntrance;
+room "Alley" tag rAlley
+     style ROAD
+     dir e from rFactoryEntrance;
+room "Pier" tag rPier
+     style ROAD
+     dir se from rWickerPier;
+room "Power Station Entrance" tag rPowerStationEntrance
+     style ROAD
+     dir se from rWickerRiver;
+room "River Street Bridge" tag rRiverStreetBridge
+     style ROAD
+     dir se from rPowerStationEntrance;
+room "Industrial Park Entrance" tag rIndustrialParkEntrance
+     style ROAD
+     dir sw sw from rWickerRiver;
+room "Dump Entrance" tag rDumpEntrance
+     style ROAD
+     dir sw from rIndustrialParkEntrance;
+room "Industrial Park Drive" tag rIndustrialParkDrive
+     style ROAD
+     dir nw from rIndustrialParkEntrance;
+
+room "Tenement" tag rTenement_WickerPier
+     style BUILDING
+     dir nw from rWickerPier;
+room "Bookstore" tag rBookstore
+     style BUILDING
+     style NAMECHANGE
+     note "2071: NO ACCESS"
+     dir e from rWickerPier;
+room "Liquor Store" tag rLiquorStore
+     style BUILDING
+     dir s from rWickerPier;
+room "Pool Hall" tag rPoolHall
+     style BUILDING
+     dir ne from rPier;
+room "Bar" tag rBar
+     style BUILDING
+     dir sw from rPier;
+link rBar to rAlley;
+room "Gun Shop" tag rGunShop
+     style BUILDING
+     dir n from rFactoryEntrance;
+room "Tenement" tag rTenement_FactoryEntrance
+     style BUILDING
+     dir nw from rFactoryEntrance;
+room "Skycar Factory" tag rSkycarFactory
+     style BUILDING
+     dir se from rFactoryEntrance;
+link rSkycarFactory to rPowerStationEntrance;
+room "Closed Factory" tag rClosedFactory
+     style BUILDING
+     style NAMECHANGE
+     note "2051: Soup Kitchen"
+     note "2061: NO ACCESS"
+     dir n from rWickerRiver;
+room "Warehouse" tag rWarehouse_WickerRiver
+     style BUILDING
+     style NAMECHANGE
+     note "2061: Vacant Lot"
+     dir w from rWickerRiver;
+room "Tenement" tag rTenement_WickerRiver
+     style BUILDING
+     dir s from rWickerRiver;
+link rTenement_WickerRiver to rPowerStationEntrance;
+room "Power Station" tag rPowerStation
+     style BUILDING
+     dir s from rPowerStationEntrance;
+room "Warehouse" tag irWarehousendustrialParkEntrance
+     style BUILDING
+     dir n from rIndustrialParkEntrance;
+link rIndustrialParkEntrance to rTenement_WickerRiver
+     dir e n e;
+room "Burned-out Area" tag rBurnedOutArea
+     style BUILDING
+     dir nw from rDumpEntrance;
+room "City Dump" tag rCityDump
+     style BUILDING
+     dir sw from rDumpEntrance;
+
+
+
+join rMainWicker to rWickerPier
+     cmd to "S"
+     cmd from "NE";
+join rBend to rWickerRiver
+     go se;
+
+
+room "[Main & Wicker]" style JOIN
+     dir ne from rWickerPier nolink;
+room "[Bend]" style JOIN
+     dir nw from rWickerRiver nolink;
+
+########################################
+map "Subway";
+room "Rockvil Stadium Tube Station" tag rRockvilStadiumTubeStation
+     style SUBWAY;
+room "Halley Park West Tube Station" tag rHalleyParkWestTubeStation
+     style SUBWAY
+     dir se from rRockvilStadiumTubeStation;
+room "Skybus Terminal Tube Station" tag rSkybusTerminalTubeStation
+     style SUBWAY
+     dir se from rHalleyParkWestTubeStation;
+room "Elm & River Tube Station" tag rElmRiverTubeStation
+     style SUBWAY
+     dir se from rSkybusTerminalTubeStation;
+room "Wicker & River Tube Station" tag rWickerRiverTubeStation
+     style SUBWAY
+     dir se from rElmRiverTubeStation;
+room "Elm & University Tube Station" tag rElmUniversityTubeStation
+     style SUBWAY
+     dir sw from rSkybusTerminalTubeStation;
+room "Bodanski Square Tube Station" tag rBodanskiSquareTubeStation
+     style SUBWAY
+     dir ne from rSkybusTerminalTubeStation;
+room "Terminal Tube Station" tag rTerminalTubeStation
+     style SUBWAY
+     dir ne from rBodanskiSquareTubeStation;
+
+join rRockvilStadium to rRockvilStadiumTubeStation
+     go d;
+join rHalleyParkWestE to rHalleyParkWestTubeStation
+     go d;
+join rSkybusTerminal to rSkybusTerminalTubeStation
+     go d;
+join rElmRiver to rElmRiverTubeStation
+     go d;
+join rWickerRiver to rWickerRiverTubeStation
+     go d;
+join rElmUniversity to rElmUniversityTubeStation
+     go d;
+join rBodanskiSquare to rBodanskiSquareTubeStation
+     go d;
+join rTerminal to rTerminalTubeStation
+     go d;
+
+
+# ROCKVIL, SOUTH DAKOTA
+################################################################################
+
+map "Apartment, 2091";
+
+room "Solarium" tag rSolarium2091;
+room "Patio" tag rPatio2091
+     dir s from rSolarium2091;
+room "Living Room" tag rLivingRoom2091
+     dir n from rSolarium2091;
+room "Dining Room" tag rDiningRoom2091
+     dir e from rLivingRoom2091;
+room "Kitchen" tag rKitchen2091
+     dir e from rDiningRoom2091;
+room "Master Bedroom" tag rMasterBedroom2091
+     dir ne from rLivingRoom2091
+     go u;
+room "Foyer" tag rFoyer2091
+     dir n n from rLivingRoom2091;
+room "Guest Room" tag rGuestRoom2091
+     dir e from rFoyer2091;
+room "Den" tag rDen2091
+     dir w from rFoyer2091;
+room "Bathroom" tag rBathroom2091
+     dir sw from rFoyer2091;
+
+room "Skycab" tag rSkycab2091
+     dir n from rFoyer2091 oneway;
+
+################################################################################
+### TASKS
+
+item "2041" tag i2041
+     in r2041
+     need iDecoderWheel;
+item "2051" tag i2051
+     in r2051
+     after tDataDump2041
+     need iDecoderWheel;
+item "2061" tag i2061
+     in r2061
+     after tDataDump2051
+     need iDecoderWheel;
+item "2071" tag i2071
+     in r2071
+     after tDataDump2061
+     need iDecoderWheel;
+item "2081" tag i2081
+     in r2081
+     after tDataDump2071
+     need iDecoderWheel;
+# item "2091" tag i2091
+#      in r2091
+#      after tPartIII
+#      need iDecoderWheel;
+
+task "- Part I -" tag tPartI
+     in any
+     note "You \"hear\" a message coming in on the official message line: \"PRISM? Perelman here. The psych tests have all checked out at 100%, which means that you've recovered from the, ah, awakening without any trauma or other serious effects. We'll be ready to begin the simulation soon. By the way, your piece is in the current issue of Dakota Online.\""
+     note "- Some useful commands: ABORT, BRIEF/SUPERBRIEF/VERBOSE, DIAGNOSE, RECORD ON/OFF, SCRIPT/UNSCRIPT"
+     note "- Wait until Perelman gives you instructions...  Go to Library Mode and read some documentation.  Explore the communication outlets. Or have a sleep."
+;
+
+task "[2041 Tasks]" tag t2041
+     need i2041
+     in any
+     note "- Eating a meal in a restaurant"
+     note "- Talking to a government official"
+     note "- Visiting a power-generating facility"
+     note "- Reading a newspaper"
+     note "- Riding some form of public transportation"
+     note "- Attending a court in session"
+     note "- Talking to a church official"
+     note "- Going to a movie"
+     note "- Visiting your own home or living quarters"
+;
+
+item "recording" tag iRecording2041a
+     need i2041 in rSimons lost
+     note "- Eating a meal in a restaurant.  $65";
+item "recording" tag iRecording2041b
+     need i2041 in rBurgerMeister lost
+     note "- Eating a meal in a restaurant.  $20";
+item "recording" tag iRecording2041c
+     need i2041 in rTheCoachman lost
+     note "- Eating a meal in a restaurant.  $65";
+item "recording" tag iRecording2041d
+     need i2041 in rRoysPagoda lost
+     note "- Eating a meal in a restaurant.  $30";
+item "recording" tag iRecording2041e
+     need i2041 in rCityHall lost
+     note "- Talking to a government official";
+item "recording" tag iRecording2041f
+     need i2041 in rPowerStation lost
+     note "- Visiting a power-generating facility";
+item "recording" tag iRecording2041g
+     need i2041 in rBodanskiSquare lost
+     note "- Reading a newspaper";
+item "recording" tag iRecording2041h
+     need i2041 in rBodanskiSquareTubeStation lost
+     note "- Riding some form of public transportation";
+item "recording" tag iRecording2041i
+     need i2041 in rCourthouse lost
+     note "- Attending a court in session";
+item "recording" tag iRecording2041j
+     need i2041 in rStMichaels lost
+     note "- Talking to a church official";
+item "recording" tag iRecording2041k
+     need i2041 in rFirstMethodistChurch lost
+     note "- Talking to a church official";
+item "recording" tag iRecording2041l
+     need i2041 in rCinema lost
+     note "- Going to a movie";
+item "recording" tag iRecording2041m
+     need i2041 in rLivingRoom lost
+     note "- Visiting your own home or living quarters";
+
+
+task "SHOW RECORDINGS TO PERELMAN" tag tDataDump2041
+     in rPEOF
+     need i2041 drop it in r2041
+     need iRecording2041a iRecording2041b iRecording2041c iRecording2041d iRecording2041e
+          iRecording2041f iRecording2041g iRecording2041h iRecording2041i iRecording2041j
+          iRecording2041k iRecording2041l iRecording2041m
+;
+
+task "- Part II -" tag tPartII
+     in any
+     after tDataDump2041
+     note "Perelman walks into the office and spots the active light on your communication unit immediately. \"Hello, PRISM,\" he says, sitting down at his desk. \"It looks like you beat me here. Give me a moment, please.\" He begins quickly jotting a few notes onto a pad."
+     note "Perelman looks up, smiling. \"An excellent job, PRISM. We just finished viewing your recordings, and the experts were quite pleased.\" He pauses, as though realizing something for the first time. \"In fact, I thought they looked pretty good myself. I suppose this means the Plan'll get adopted."
+     note "\"What's next for you, I wonder? You're going to be a hero, you know. You'd probably get a call from the President congratulating you, except of course that he's against the Plan.\" Perelman notices a paper on his desk. \"Oh, apparently the Simulation Controller generated a lot of new data correlations while running your simulation. I'm not sure what the effect of that will be. Might make an even more accurate simulation possible.\""
+;
+
+task "[2051 Tasks]" tag t2051
+     need i2051
+     in r2051
+     note "Record sights and events totaling (at least) 11 points from 2051."
+     note "Spending over 300 minutes in 2051 will make a 2061 simulation possible."
+;
+
+item "recording" tag iRecording2051a
+     need i2051 in rLivingRoom lost
+     note "- The BSF raid, which happens within your first 20 turns in your apartment"
+     score 3;
+item "recording" tag iRecording2051b
+     need i2051 in rBodanskiSquare lost
+     note "- Reading the newspaper after getting a copy"
+     score 3;
+item "recording" tag iRecording2051c
+     need i2051 in rLivingRoom lost
+     note "- Looking through the window in your apartment"
+     score 3;
+item "recording" tag iRecording2051d
+     need i2051 in rCityDump lost
+     note "- LOOK when you're in the City Dump (also 2061 and 2071)"
+     score 3;
+item "recording" tag iRecording2051e
+     need i2051 hidden in r2051 lost
+     note "- The sirens announcing curfew, which you can hear from anywhere at 9 p.m. (also 2061 and 2071)"
+     score 2;
+item "recording" tag iRecording2051f
+     need i2051 in rCityHall lost
+     note "- Talking to the government official at City Hall"
+     score 2;
+item "recording" tag iRecording2051g
+     need i2051 in rClosedFactory lost
+     note "- LOOK when you're in the Soup Kitchen, or just outside it"
+     score 2;
+item "recording" tag iRecording2051h
+     need i2051 in rCourthouse lost
+     note "- LOOK when you're in the Courthouse"
+     score 2;
+item "recording" tag iRecording2051i
+     need i2051 in rTrainStation lost
+     note "- LOOK when you're in the Church of God's Word"
+     score 2;
+item "recording" tag iRecording2051j
+     need i2051 in rBodanskiSquare lost
+     note "- Examining the newspaper dispenser in Bodanski Square"
+     score 2;
+item "recording" tag iRecording2051k
+     need i2051 in rDorm lost
+     note "- The police raid on the Dorm, which happens within your first several turns there"
+     score 2;
+item "recording" tag iRecording2051l
+     need i2051 in rHalleyUniversity lost
+     note "- Skycopter at Halley & University announcing a prayer meeting which happens within your first several turns there"
+     score 1;
+item "recording" tag iRecording2051m
+     need i2051 in rTrainStation lost
+     note "- Reading the pamphlet from the Church of God's Word lobby"
+     score 1;
+item "recording" tag iRecording2051n
+     need i2051 in rCinema lost
+     note "- Reading the marquee at the Cinema, or watching a movie"
+     score 1;
+item "recording" tag iRecording2051o
+     need i2051 in rMainWicker lost
+     note "- Reading the bordello flyer from the man at Main & Wicker"
+     score 1;
+item "recording" tag iRecording2051p
+     need i2051 in rAquariumW lost
+     note "- Looking in the tank at the Aquarium (also 2061 and 2071)"
+     score 1;
+item "recording" tag iRecording2051q
+     need i2051 in rSkycarFactory lost
+     note "- LOOK when you're in the Skycar Factory"
+     score 1;
+item "recording" tag iRecording2051r
+     need i2051 in rRockvilReformatory lost
+     note "- LOOK when you're in the Rockvil Reformatory"
+     score 1;
+item "recording" tag iRecording2051s
+     need i2051 in rPowerStation lost
+     note "- LOOK when you're in the Power Station"
+     score 1;
+item "recording" tag iRecording2051t
+     need i2051 in rHealthCenter lost
+     note "- LOOK when you're in the Health Center"
+     score 1;
+item "recording" tag iRecording2051u
+     need i2051 in rBodanskiSquareTubeStation lost
+     note "- LOOK when you're in any tubecar"
+     score 1;
+item "recording" tag iRecording2051v
+     need i2051 in rHuangHall lost
+     note "- LOOK when you're in Huang Hall"
+     score 1;
+item "recording" tag iRecording2051w
+     need i2051 in rHalleyMuseum lost
+     note "- LOOK when you're in Halley Museum"
+     score 1;
+item "recording" tag iRecording2051x
+     need i2051 in rPier lost
+     note "- Examining the river, from any place where it's visible. (Pier, Main & Wicker, Main Street Bridge, Cemetery, Riverside Park, Symphony Hall, Symphony Entrance)"
+     score 1;
+item "recording" tag iRecording2051y
+     need i2051 in rJoybooth lost
+     note "- EAST from Rockvil Mall"
+     score 1;
+item "recording" tag iRecording2051z
+     need i2051 in rMainRiver lost
+     note "- BSF officers completing a raid at Main & River, which happens within your first several turns there"
+     score 1;
+
+task "SHOW RECORDINGS TO PERELMAN" tag tDataDump2051
+     in rPEOF
+     need i2051 drop it in r2051
+     need iRecording2051a iRecording2051b iRecording2051c iRecording2051d iRecording2051e
+          iRecording2051f iRecording2051g iRecording2051h iRecording2051i iRecording2051j
+          iRecording2051k iRecording2051l iRecording2051m iRecording2051n iRecording2051o
+          iRecording2051p iRecording2051q iRecording2051r iRecording2051s iRecording2051t
+          iRecording2051u iRecording2051v iRecording2051w iRecording2051x iRecording2051y
+          iRecording2051z
+;
+
+task "[2061 Tasks]" tag t2061
+     need i2061
+     in r2061
+     note "Record sights and events totaling (at least) 21 points from 2061."
+     note "Spending over 400 minutes in 2061 will make a 2071 simulation possible."
+;
+
+item "recording" tag iRecording2061aa
+     need i2061 in rTrainStation lost
+     note "- Reading the pamphlet from the Church of God's Word lobby"
+     score 5;
+item "recording" tag iRecording2061ab
+     need i2061 in rMuseumEntrance lost
+     note "- Policemen casually beating up a black youth at the Museum Entrance, which happens within your first few turns there"
+     score 5;
+item "recording" tag iRecording2061ac
+     need i2061 in rLivingRoom lost
+     note "-  Looking through the window in your apartment"
+     score 5;
+item "recording" tag iRecording2061ad
+     need i2061 in rRockvilHighW lost
+     note "-  LOOK when you're in the Vincent School (also 2071)"
+     score 5;
+item "recording" tag iRecording2061ae
+     need i2061 in rCourthouse lost
+     note "-  LOOK when you're in the Courthouse"
+     score 5;
+item "recording" tag iRecording2061af
+     need i2061 in rLivingRoom lost
+     note "-  The BSF raid, which happens within the first 20 turns after Jill returns to the apartment"
+     score 4;
+item "recording" tag iRecording2061ag
+     need i2061 in rLivingRoom lost
+     note "-  Jill telling you that Mitchell has joined the Church of God's Word, which happens shortly after you enter your apartment"
+     score 4;
+item "recording" tag iRecording2061ah
+     need i2061 in rRockvilStadium lost
+     note "-  LOOK when you're in Rockvil Stadium"
+     score 4;
+item "recording" tag iRecording2061ai
+     need i2061 in rAirportwayRiver lost
+     note "-  Skycar nearly crushing an old woman at Airportway & River, which happens within your first few turns there"
+     score 3;
+item "recording" tag iRecording2061aj
+     need i2061 in rRockvilReformatory lost
+     note "-  LOOK when you're in the Rockvil Reformatory"
+     score 3;
+item "recording" tag iRecording2061ak
+     need i2061 in rTerminal lost
+     note "-  LOOK when you're at the airport Terminal (also 2071)"
+     score 3;
+item "recording" tag iRecording2061al
+     need i2061 in rSouthwayRiver lost
+     note "-  LOOK when you're at Southway & River (also 2071)"
+     score 3;
+item "recording" tag iRecording2061am
+     need i2061 in rAthleticFieldE lost
+     note "-  Schoolchildren making fun of you, which happens upon entering the Athletic Field"
+     score 2;
+item "recording" tag iRecording2061an
+     need i2061 in rTerminal lost
+     note "-  Reading the sign at the airport Terminal (also 2071)"
+     score 2;
+item "recording" tag iRecording2061ao
+     need i2061 in rCinema lost
+     note "-  Reading the marquee at the Cinema, or watching a movie"
+     score 2;
+item "recording" tag iRecording2061ap
+     need i2061 in rZoo lost
+     note "-  LOOK when you're in the Zoo"
+     score 2;
+item "recording" tag iRecording2061aq
+     need i2061 in rKennedyParkNE lost
+     note "-  LOOK when you're in the construction site that was once Kennedy Park"
+     score 2;
+
+#      note "2;-  LOOK when you're in the Skycar Factory"
+#      note "2;-  LOOK when you're in the Power Station"
+#      note "2;-  LOOK when you're in the Bank"
+#      note "2;-  LOOK when you're in any tubecar (also 2071)"
+#      note "2;-  LOOK when you're in any apartment lobby (also 2071)"
+#      note "2;-  LOOK when you're in Huang Hall"
+#      note "2;-  LOOK when you're at the Health Center"
+#      note "2;-  LOOK when you're at the Church Entrance near St. Michael's"
+#      note "2;-  Examining the window in your apartment"
+#      note "2;-  Examining the sky during the day, or being outside at sunset, to see the smoggy skies"
+#      note "2;-  Examining the river, from any place where it's visible"
+#      note "2;-  Church youths harassing an old Jew at the Zoo Entrance, which happens within your first few turns there"
+#      note "1;-  WEST from the lobby of Parkview Apartments (also 2071)"
+#      note "1;-  Security guards are rude and rough when you try to enter any of the numerous closed or off-limits buildings"
+#      note "1;-  LOOK when you're in the Post Office (also 2071)"
+#      note "1;-  LOOK when you're in the Hospital"
+#      note "1;-  LOOK when you're in either Foodville"
+#      note "1;-  LOOK when you're in The Coachman"
+#      note "1;-  LOOK when you're in Heiman World (also 2071)"
+#      note "1;-  LOOK when you're in Heiman Village"
+#      note "1;-  LOOK when you're in Halley Park West"
+#      note "1;-  LOOK when you're in Halley Park East"
+#      note "1;-  LOOK when you're in Burgerworld"
+#      note "1;-  LOOK when you're at the Water Tower"
+#      note "1;-  LOOK when you're at the Museum Entrance (also 2071)"
+#      note "1;-  LOOK when you're at Kennedy & Main"
+#      note "1;-  LOOK when you're at Halley & Park"
+#      note "1;-  Drinking water in your kitchen or bathroom (also 2071)"
+
+task "SHOW RECORDINGS TO PERELMAN" tag tDataDump2061
+     in rPEOF
+#     after t2061
+     need i2061 drop it in r2061
+     need iRecording2061aa iRecording2061ab iRecording2061ac iRecording2061ad iRecording2061ae
+          iRecording2061af iRecording2061ag iRecording2061ah iRecording2061ai iRecording2061aj
+          iRecording2061ak iRecording2061al iRecording2061am iRecording2061an iRecording2061ao
+          iRecording2061ap iRecording2061aq
+;
+
+task "[2071 Tasks]" tag t2071
+     need i2071
+     in r2071
+#      note "10; Getting executed for cheating on your food ration: Enter either Foodville when the sign in the window indicates that it's your ration day (see the number after the hyphen on your ration card). To get a soy patty, give your ration card to the clerk. Return to the Foodville, and give the clerk your card a second time. You'll be arrested and thrown in jail. Just wait a few hours until your 'trial.'"
+#      note "9;  Mitchell arresting Jill for being a heretic, which happens within several minutes of your arrival at the apartment"
+#      note "8;  LOOK when you're in the Courthouse"
+#      note "8;  LOOK when you're in Rockvil Stadium"
+#      note "8;  Getting shot by drunken cops by waiting outside after curfew"
+#      note "7;  Policemen shooting an old woman in an alley near Southway & Kennedy, which happens within your first few turns there"
+#      note "7;  Looking through the window in your apartment"
+#      note "7;  LOOK when you're in Huang Hall"
+#      note "7;  Getting stoned to death by schoolchildren, which happens soon after entering the Athletic Field"
+#      note "6;  Reading the list of banned books in the Main Library"
+#      note "6;  Policeman clubbing a screaming woman at Main & Church, which happens within your first few turns there"
+#      note "5;  The BSF raid, which happens within the first 20 turns after Jill is arrested by Mitchell and the police"
+#      note "5;  Shooting of innocent man at airport Terminal, which happens within your first few turns there"
+#      note "5;  Reading the pamphlet in the Church of God's Word lobby"
+#      note "5;  LOOK when you're in the Zoo"
+#      note "5;  Entering the Dorm"
+#      note "4;  Reading the banner in the Zoo"
+#      note "4;  LOOK when you're just outside either Foodville"
+#      note "4;  LOOK when you're in the Rockvil Reformatory"
+#      note "4;  LOOK when you're in the Cemetery"
+#      note "4;  Bodyguards beating a beggar at Centre & Kennedy, which happens within your first several turns there"
+#      note "3;  Skycopter at Wicker & River announcing special Execution Matches, which happens within your first few turns there"
+#      note "3;  Security guards are abusive when you try to enter any of the numerous closed or off-limits buildings"
+#      note "3;  Reading the marquee at the Cinema, or watching a movie"
+#      note "3;  Pushing the joybooth button while wearing the headset"
+#      note "3;  LOOK when you're on either of the bridges over the river"
+#      note "3;  LOOK when you're in the Vacant Lot where the First Methodist Church once stood"
+#      note "3;  LOOK when you're in the Skycar Factory"
+#      note "3;  LOOK when you're in the Hospital"
+#      note "3;  LOOK when you're in the Bank"
+#      note "3;  LOOK when you're at the Power Station"
+#      note "3;  Examining the river, from any place where it's visible"
+#      note "3;  Entering the estates built on the site of Halley Park"
+#      note "3;  Enter The Coachman"
+#      note "2;  Trying to get food in either Foodville when it's not your ration day (compare the sign in the window to the number after the hyphen on your ration card)"
+#      note "2;  Trying to enter Symphony Hall"
+#      note "2;  Trying to enter Riverside Park"
+#      note "2;  Taking a shower in your bathroom"
+#      note "2;  LOOK when you're in the Wells Theatre"
+#      note "2;  LOOK when you're in the Fire Station"
+#      note "2;  LOOK when you're in the Aquarium, or smelling the aquarium"
+#      note "2;  LOOK when you're at the Water Tower"
+#      note "2;  LOOK when you're at any entrance to the estates that have been constructed on the former site of Halley Park"
+#      note "2;  LOOK when you're at Rockvil University"
+#      note "2;  LOOK when you're at Kennedy & Main"
+#      note "2;  LOOK when you're at Elm Underpass"
+#      note "2;  Examining the soy patty which you get at either Foodville"
+#      note "1;  Trying to enter Dunbar's"
+#      note "1;  LOOK when you're in the Cinema"
+#      note "1;  LOOK when you're in the Bar that was once a Burgerworld"
+#      note "1;  LOOK when you're in Rockvil Centre"
+#      note "1;  LOOK when you're at Wicker & Pier, or trying to enter the bookstore there"
+     note "Record sights and events totaling (at least) 41 points from 2071."
+     note "Spending over 600 minutes in 2071 will make a 2081 simulation possible."
+;
+
+task "SHOW RECORDINGS TO PERELMAN" tag tDataDump2071
+     in rPEOF
+#     after t2071
+     need i2071 drop it in r2071
+;
+
+task "[2081 TASKS]" tag t2081
+     need i2081
+     in r2081
+#      note "15; Going south from Main & Wicker"
+#      note "4;  Entering the Cemetery"
+#      note "2;  Examining the bloody sack from the Main Street Bridge"
+#      note "3;  Going east from, or waiting on, the Main Street Bridge"
+#      note "2;  LOOK when you're on the Main Street Bridge"
+#      note "2;  Eating the mold from the Foodville"
+#      note "3;  LOOK when you're in the Foodville"
+#      note "6;  Going west from Main & Wicker"
+#      note "8;  LOOK when you're at Main & Wicker"
+#      note "3;  LOOK when you're in The Coachman"
+     note "Record sights and events totaling (at least) 15 points from 2081."
+;
+
+task "SHOW RECORDINGS TO PERELMAN" tag tDataDump2081
+     in rPEOF
+#     after t2081
+     need i2081 drop it in r2081
+;
+
+# task "- Part III -" tag tPartIII
+#      in rCommunicationsMode
+#      after tDataDump2081
+#      note "_FIXME_"
+# ;
+
+# task "FINISH" tag tFINISH
+#      need i2091
+#      in rSkycab2091
+# ;

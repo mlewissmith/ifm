@@ -1,0 +1,1211 @@
+# $Id: trinity.ifm 3412 2007-04-12 00:26:58Z mlewissmith $
+# DOCS IN /usr/local/share/ifm/docs/ifm
+
+title "Trinity";
+
+#dot.task_graph_rooms = 1;
+
+style TOADSTOOL;
+room_colour = "grey";
+endstyle;
+
+style CONNECT;
+room_border_dashed = 1;
+endstyle;
+
+########################################
+# Starting items
+item "Wristwatch" tag Wristwatch_I;
+item "Credit card" tag CreditCard_I;
+item "Seven-sided coin" tag FiftyPCoin_I
+        note "Fifty Pence";
+# Starting items
+########################################
+
+
+################################################################################
+# OMEGA (Kensington Gardens)
+map "OMEGA (Kensington Gardens)";
+
+room "Palace Gate" tag PalaceGate_R start
+        style TOADSTOOL
+        note "Your wristwatch says it's 3:30:00 pm."
+        exit n ne e ;
+task "START" tag Start_T;
+
+room "Broad Walk" tag BroadWalk_R
+        dir n 2
+        exit e n s ne se;
+item "Bird Woman";
+item "Bag Of Crumbs" tag BagOfCrumbs_I
+        hidden
+        need TwentyPCoin_I;
+item "Small Coin" tag TwentyPCoin_I
+        hidden
+        note "Twenty Pence";
+task "Buy Crumbs" tag BuyCrumbs_T
+        score 1
+        cmd "BUY CRUMBS"
+        cmd "TAKE CRUMBS AND CHANGE"
+        need FiftyPCoin_I
+        lose FiftyPCoin_I
+        give BagOfCrumbs_I
+        give TwentyPCoin_I;
+task "Feed Birds" tag FeedBirds_T
+        need BagOfCrumbs_I
+        note "Wind changes"
+        note "Ruby revealed, but you can't have it yet...";
+task "Cross Grass" tag CrossGrass_T
+        after FeedBirds_T # so that the wind is westerly
+        after PramToBroadWalk_T # so that we're nicely lined up
+        need Umbrella_I
+        cmd "OPEN PRAM"
+        cmd "SIT IN PRAM"
+        cmd "OPEN UMBRELLA"
+        goto LongWater_R
+        drop all except Umbrella_I Wristwatch_I CreditCard_I in LongWater_R
+        note "You drop everything you're carrying in Long Water";
+
+room "Black Lion Gate" tag BlackLionGate_R
+        dir n
+        exit e se;
+item "Perambulator" tag Perambulator_I
+        ignore
+        note "push pram n/s/e/w etc";
+task "Push pram S" tag PramToBroadWalk_T
+        in BlackLionGate_R
+        goto BroadWalk_R;
+
+room "Inverness Terrace" tag InvernessTerrace_R
+        dir e
+        exit e w s
+        link BroadWalk_R;
+item "Bubble Boy";
+
+room "Lancaster Gate" tag LancasterGate_R
+        dir e
+        exit w sw s;
+item "Old Woman";
+item "Umbrella" tag Umbrella_I
+        note "wait for it to appear..."
+        score 5;
+task "Throw ball at umbrella" tag ThrowBallAtUmbrella_T
+        need SoccerBall_I lose it
+        get Umbrella_I;
+
+room "Round Pond" tag RoundPond_R
+        dir sw
+        link BlackLionGate_R
+        link BroadWalk_R
+        link InvernessTerrace_R;
+item "Paper Bird" tag PaperBird_I
+        note "wait for it to appear..."
+        score 3;
+item "Piece of Paper" tag PieceOfPaper_I
+        hidden
+        note "\"Long Water, Four O'Clock\"";
+task "Read Paper Bird" tag ReadPaperBird_T
+        cmd "OPEN BIRD AND READ IT"
+        need PaperBird_I lose it
+        give PieceOfPaper_I;
+
+room "Lancaster Walk" tag LancasterWalk_R
+        dir e
+        link LancasterGate_R
+        link InvernessTerrace_R
+        exit n s e;
+item "Printed Notice"
+        note "Do Not Walk On The Grass";
+
+room "Flower Walk" tag FlowerWalk_R
+        dir s 2 from LancasterWalk_R
+        exit n w nw
+        link PalaceGate_R;
+item "Soccer Ball" tag SoccerBall_I
+        score 1;
+
+room "The Wabe" tag TheWabe_R
+        dir nw
+        link RoundPond_R
+        link BroadWalk_R
+        link PalaceGate_R
+        link LancasterWalk_R;
+item "Sundial" tag Sundial_I;
+item "Gnomon" tag Gnomon_I
+        note "left-handed thread"
+        score 5;
+task "Unscrew Gnomon" tag UnscrewGnomon_T
+        get Gnomon_I;
+
+room "Long Water" tag LongWater_R
+        dir e from LancasterWalk_R oneway nopath;
+
+room "Wading" tag Wading_R
+        style TOADSTOOL
+        dir e ;
+task "Wait"
+        note "Wait for missile -- door will appear";
+task "(Exit Omega)" tag OMEGACOMPLETED
+        cmd none;
+join Wading_R to Meadow_R
+        oneway
+        cmd "Enter Door" ;
+
+# OMEGA (Kensington Gardens)
+################################################################################
+
+################################################################################
+# THE WABE
+map "The Wabe";
+
+room "Meadow" tag Meadow_R
+        style TOADSTOOL;
+item "Omega Toadstool" tag OmegaToadstool_I ;
+
+room "Summit" tag Summit_R
+        dir n 2 from Meadow_R
+        exit e ne;
+
+room "South Bog" tag SouthBog_R
+        dir ne 2 from Summit_R
+        exit n ne e se s sw w;
+item "Splintered Log" tag SplinteredLog_I;
+item "Splinter (providing light)" tag Splinter_I
+        after GetSplinter_T
+        hidden
+        score 1;
+task "Get Splinter" tag GetSplinter_T
+        need SplinteredLog_I lose it
+        give Splinter_I;
+
+room "Waterfall" tag Waterfall_R
+        style TOADSTOOL
+        dir w 2 from SouthBog_R;
+item "Mercury Toadstool" tag MercuryToadstool_I ;
+task "Enter Mercury" tag EnterMercury_T
+        cmd "Enter Door"
+        after MoveRingToMercury_T
+        follow GetInDish_T
+        goto EarthOrbit_R;
+
+
+
+room "North Bog" tag NorthBog_R
+        dir n 2 from SouthBog_R
+        exit n e se s sw
+        link Waterfall_R ChasmsBrink_R;
+item "Venus Fly Trap" tag VenusFlyTrap_I ;
+
+room "Chasm's Brink" tag ChasmsBrink_R
+        dir ne 2 from SouthBog_R
+        exit ne nw;
+item "Oak Tree";
+task "Chop tree" tag ChopTree_T
+        need SilverAxe_I;
+task "Push Tree N" tag PushTreeN_T
+        score 3
+        after ChopTree_T;
+
+room "Mesa" tag Mesa_R
+        style TOADSTOOL
+        after PushTreeN_T
+        dir n 2 from ChasmsBrink_R;
+item "Neptune Toadstool" tag NeptuneToadstool_I ;
+task "Enter Neptune" tag EnterNeptune_T
+        cmd "Enter Door"
+        after MoveRingToNeptune_T
+        goto Scaffold_R;
+
+
+room "Trellises" tag Trellises_R
+        dir se 2 from SouthBog_R
+        exit ne e se sw
+        link BottomOfStairs_R;
+
+room "Arborvitaes" tag ArborvitaesE_R
+        dir se 2 from Trellises_R oneway;
+
+room "Arboretum" tag Arboretum_R
+        dir w 2 from ArborvitaesE_R;
+item "Sparkling Sculpture" tag SparklingSculpture_I;
+
+room "Arborvitaes" tag ArborvitaesW_R
+        dir w 2 from Arboretum_R;
+link ArborvitaesW_R to Trellises_R oneway;
+
+room "North Arbor" tag NorthArbor_R
+        leave ReverseGnomon_I
+        dir n from Arboretum_R oneway;
+room "Top of Arbor" tag TopOfArbor_R
+        dir se s from NorthArbor_R oneway
+        go up ;
+room "South Arbor" tag SouthArbor_R
+        dir s w n from TopOfArbor_R oneway;
+link SouthArbor_R to Arboretum_R
+        dir n go down oneway;
+
+item "Silver Axe" tag SilverAxe_I
+        in TopOfArbor_R
+        need Splinter_I
+        score 1;
+
+item "Gnomon" tag ReverseGnomon_I
+        hidden in Arboretum_R
+        after RevertMe_T
+        note "right-handed thread";
+task "(Reverse Gnomon)" tag ReverseGnomon_T
+        in SouthArbor_R
+        cmd none
+        need Gnomon_I lose it;
+task "Drop Gnomon" tag DropGnomon_T
+        in Arboretum_R
+        follow ReverseGnomon_T
+        lose Gnomon_I;
+task "(Reverse Me)" tag RevertMe_T
+        in TopOfArbor_R
+        follow DropGnomon_T
+        cmd none;
+
+
+room "Bottom of Stairs" tag BottomOfStairs_R
+        dir e 2 from SouthBog_R
+        exit n ne e se sw w nw
+        link NorthBog_R;
+room "Halfway Up" tag HalfwayUp_R
+        dir n from BottomOfStairs_R go up;
+room "Vertex" tag Vertex_R
+        note "This is a good place to leave things..."
+        dir ne 2 from HalfwayUp_R go up;
+item "Sundial"
+        note "right-handed thread"
+        note "SYMBOLS AROUND RING: Omega, Mercury, Pluto, Neptune, Libra, Mars, Alpha";
+task "Screw Gnomon in Sundial" tag ScrewGnomonInSundial_T
+        score 5
+        need ReverseGnomon_I lose it;
+task "Push Lever" tag PushLever_T
+        follow ScrewGnomonInSundial_T
+        note "Stops shadow from moving";
+task "Move Ring to Mercury" tag MoveRingToMercury_T
+        in Vertex_R
+        after PushLever_T;
+task "Move Ring to Pluto" tag MoveRingToPluto_T
+        in Vertex_R
+        after PushLever_T;
+task "Move Ring to Neptune" tag MoveRingToNeptune_T
+        in Vertex_R
+        after PushLever_T;
+task "Move Ring to Libra" tag MoveRingToLibra_T
+        in Vertex_R
+        after PushLever_T;
+task "Move Ring to Mars" tag MoveRingToMars_T
+        in Vertex_R
+        after PushLever_T;
+task "Move Ring to Alpha" tag MoveRingToAlpha_T
+        in Vertex_R
+        after PushLever_T;
+
+
+
+room "Forest Clearing" tag ForestClearing_R
+        dir s 2 from SouthBog_R
+        link Summit_R BottomOfStairs_R Trellises_R Waterfall_R;
+
+room "Promontory" tag Promontory_R
+        dir n 2 from NorthBog_R
+        exit s se
+        link ChasmsBrink_R;
+item "Bubble Boy";
+item "Dish";
+item "Bubble" tag Bubble_I
+        hidden after GetInDish_T;
+task "Get In Dish" tag GetInDish_T
+        note "... and wait for boy to blow another bubble"
+        give Bubble_I;
+
+room "Under Cliff" tag UnderCliff_R
+        dir ne 2 from BottomOfStairs_R
+        exit e se s sw w
+        link ChasmsBrink_R;
+item "Beehive";
+item "Bee" tag Bee_I
+        hidden in UnderCliff_R
+        note "The bee follows you everywhere"
+        after GetBee_T;
+item "Honey" tag Honey_I
+        hidden in UnderCliff_R
+        score 3
+        after GetHoney_T;
+task "Examine Beehive" tag ExamineBeehive_T
+        note "Reveals a dark opening";
+task "Get Bee" tag GetBee_T
+        in UnderCliff_R
+        cmd "Reach In Opening"
+        after ExamineBeehive_T
+        give Bee_I;
+task "(Kill Bee)" tag KillBee_T
+        cmd none
+        note "Killed by the Venus flytrap"
+        after GetBee_T
+        need Bee_I lose it
+        in NorthBog_R;
+task "Get Honey" tag GetHoney_T
+        in UnderCliff_R
+        cmd "Reach In Opening"
+        after KillBee_T
+        give Honey_I;
+
+room "The Bend" tag TheBend_R
+        dir s 2 from UnderCliff_R
+        exit n ne e s sw w nw
+        link Trellises_R BottomOfStairs_R ChasmsBrink_R;
+
+room "The River" tag TheRiver_R
+        dir s 2 from TheBend_R
+        exit n w nw
+        link Trellises_R BottomOfStairs_R;
+item "Dory"
+     note "Wait for it to appear.";
+task "Wear Shroud" tag WearShroud_T
+        in any
+        need BurialShroud_I;
+task "Enter Dory" tag EnterDory_T
+        need BurialShroud_I
+        after WearShroud_T;
+task "Pay Oarsman with Silver Coin" tag PayOarsmanWithSilverCoin_T
+        need SilverCoin_I lose it
+        after EnterDory_T
+        goto SandBar_R;
+
+room "Moor" tag Moor_R
+        style TOADSTOOL
+        dir e 2 from TheBend_R
+        link UnderCliff_R;
+item "Mars Toadstool" tag MarsToadstool_I ;
+task "Enter Mars" tag EnterMars_T
+        cmd "Enter Door"
+        after MoveRingToMars_T
+        goto ThinAir_R;
+
+
+
+room "Crater's Edge" tag CratersEdge_R
+        dir n 2 from Moor_R
+        exit nw e
+        link TheBend_R UnderCliff_R;
+
+room "Crater" tag Crater_R
+        dir e from CratersEdge_R;
+item "Metal Lump" tag MetalLump_I
+        score 1
+        after PutIcicleOnMetal_T;
+task "Put Icicle on Metal" tag PutIcicleOnMetal_T
+        follow RefreezeIcicle_T
+        need Icicle_I lose it
+        score 3;
+
+room "Bluff" tag Bluff_R
+        dir nw 2 from CratersEdge_R
+        exit e
+        link ChasmsBrink_R;
+task "Open Cottage Door" tag OpenCottageDoor_T
+        in Bluff_R;
+
+room "Cottage" tag Cottage_R
+        after OpenCottageDoor_T
+        dir e from Bluff_R
+        exit e;
+item "Cauldron" tag Cauldron_I ;
+item "Map" tag Map_I ;
+item "Book" tag BookOfHours_I ;
+item "Birdcage" tag Birdcage_I
+        note "Magpie will escape if you open cage"
+        score 1;
+item "Magpie" tag Magpie_I;
+task "(Listen to Magpie)" tag ListenToMagpie_T
+        need Birdcage_I
+        cmd none
+        note "\"Milk and honey, fresh whole lizard\""
+        note "\"Killed in the light of a crescent moon\""
+        note "\"Mix 'em with a pinch o' garlic\""
+        note "\"Then stand back! 'Cause it go BOOM\"" ;
+task "Open Back Door" tag OpenCottageBackDoor_T ;
+
+task "Put skink in cauldron" tag PutSkinkInCauldron_T
+        after ListenToMagpie_T
+        score 1
+        need DeadSkink_I lose it;
+task "Put Garlic in Cauldron" tag PutGarlicInCauldron_T
+        after ListenToMagpie_T
+        score 1
+        need Garlic_I lose it;
+task "Open Coconut with Axe" tag OpenCoconutWithAxe_T
+        after ListenToMagpie_T
+        score 1
+        need Coconut_I
+        note "Drop coconut first ; pick it up afterwards"
+        need SilverAxe_I;
+task "Put Coconut in Cauldron" tag PutCoconutInCauldron_T
+        after ListenToMagpie_T
+        note "Coconut milk..."
+        score 1
+        need Coconut_I lose it
+        follow OpenCoconutWithAxe_T;
+task "Put Hand in Cauldron" tag PutHandInCauldron_T
+        after ListenToMagpie_T
+        score 1
+        need Honey_I lose it
+        note "Can't get honey off hand"
+        after PutCoconutInCauldron_T PutSkinkInCauldron_T PutGarlicInCauldron_T;
+task "(Stand Back)" tag StandBack_T
+        cmd none
+        follow PutHandInCauldron_T
+        in HerbGarden_R
+        note "\"... cos it go BOOM\""
+        note "Reveals Emerald in remains of Cauldron";
+task "Look in Cauldron" tag LookInCauldron_T
+        after StandBack_T;
+item "Emerald" tag Emerald_I
+        hidden after LookInCauldron_T
+        score 1;
+
+
+room "Herb Garden" tag HerbGarden_R
+        style TOADSTOOL
+        after OpenCottageBackDoor_T
+        dir e from Cottage_R;
+item "Refuse" tag Refuse_I ;
+task "Look in Refuse" tag LookInRefuse_T ;
+item "Garlic" tag Garlic_I
+        hidden after LookInRefuse_T
+        score 1;
+item "Libra Toadstool" tag LibraToadstool_I ;
+task "Enter Libra" tag EnterLibra_T
+        cmd "Enter White Door"
+        after MoveRingToLibra_T
+        goto Platform_R;
+
+room "Cemetery" tag Cemetery_R
+        dir n from Waterfall_R;
+item "Crypt" tag Crypt_I
+        note "WABEWALKER";
+task "Open Crypt with Spade" tag OpenCryptWithSpade_T
+        score 3
+        need Spade_I;
+task "Look in Crypt" after last;
+task "Examine Corpse" tag ExamineCorpse_T after last;
+item "Green Boot" tag GreenBoot_I
+        hidden after ExamineCorpse_T
+        keep;
+item "Red Boot" tag RedBoot_I
+        hidden after ExamineCorpse_T
+        keep;
+item "Bandage" tag Bandage_I hidden after ExamineCorpse_T;
+item "Burial Shroud" tag BurialShroud_I hidden after ExamineCorpse_T
+        score 1;
+task "Examine Mouth" tag ExamineMouth_T
+        need Bandage_I;
+item "Silver Coin" tag SilverCoin_I hidden after ExamineMouth_T
+        score 1;
+
+room "Barrow" tag Barrow_R
+        dir n from Cemetery_R oneway
+        note "Need Light (Splinter or Lantern)"
+        need Splinter_I;
+item "Barrow Wight"
+        note "kills you in the dark";
+task "Put Key in Hole"
+        need SkeletonKey_I;
+task "Turn Key" tag TurnKey_T
+        after last
+        need SkeletonKey_I lose it
+        score 1;
+
+room "Ossuary" tag Ossuary_R
+        style TOADSTOOL
+        dir n e nw from Barrow_R oneway;
+link Ossuary_R to Barrow_R
+        need Lantern_I
+        dir s w  oneway;
+item "Pluto Toadstool" tag PlutoToadstool_I
+        in Ossuary_R;
+item "Human Bones" tag HumanBones_I
+        in Ossuary_R;
+item "Skeleton Key" tag SkeletonKey_I
+        in Ossuary_R
+        hidden after GetSkeletonKey_T
+        score 1;
+task "Get Skeleton Key" tag GetSkeletonKey_T
+        need HumanBones_I lose it
+        give SkeletonKey_I;
+task "Enter Pluto" tag EnterPluto_T
+        in Ossuary_R
+        cmd "Enter Door"
+        after MoveRingToPluto_T
+        goto UndergroundE_R;
+
+
+room "Ice Cavern" tag IceCavern_R
+        after TurnKey_T
+        dir sw s from Barrow_R go d oneway;
+link IceCavern_R to Waterfall_R;
+item "Icicle" tag Icicle_I
+        hidden in IceCavern_R after ThrowAxeAtIcicles_T
+        note "You only get one; it will melt quickly"
+        score 1;
+task "Turn Lantern Off" tag TurnLanternOff_T
+        in IceCavern_R
+        need Lantern_I;
+task "Throw Axe at Icicles" tag ThrowAxeAtIcicles_T
+        in IceCavern_R
+        need SilverAxe_I
+        note "pick up the axe afterwards";
+task "(Refreeze Icicle)" tag RefreezeIcicle_T
+        in Vertex_R
+        cmd none
+        note "It will melt quickly"
+        need Icicle_I;
+
+room "Sand Bar" tag SandBar_R
+        dir e 2 from TheRiver_R nolink;
+
+room "Islet" tag Islet_R
+        style TOADSTOOL
+        dir s 2 from SandBar_R;
+item "Alpha Toadstool" tag AlphaToadstool_I;
+# join Islet_R to Shack_R
+#         oneway
+#         after MoveRingToAlpha_T
+#         cmd "Enter Door";
+task "Enter Alpha" tag EnterAlpha_T
+     cmd "Enter Door"
+     after MoveRingToAlpha_T
+     goto Shack_R;
+
+
+        ########################################################################
+        ### WABE TASK TWEAKS
+        item "Toadstool Door" tag T
+                note "(no action required)"
+                note "Door in XXX toadstool appears when shadow is on XXX symbol"
+                lost
+                in Vertex_R after PushLever_T;
+
+        task MoveRingToMercury_T
+                after PLUTOCOMPLETED
+                need T drop it until MERCURYCOMPLETED
+                note "Now would be a good time to save the game..." ;
+
+        task MoveRingToPluto_T
+                need T drop it until PLUTOCOMPLETED
+                note "Now would be a good time to save the game..." ;
+
+        task MoveRingToNeptune_T
+                need T drop it until NEPTUNECOMPLETED
+                note "Now would be a good time to save the game..." ;
+
+        task MoveRingToLibra_T
+                need T drop it until LIBRACOMPLETED
+                note "Now would be a good time to save the game..." ;
+
+        task MoveRingToMars_T
+                need T drop it until MARSCOMPLETED
+                note "Now would be a good time to save the game..." ;
+
+        task MoveRingToAlpha_T
+                after OMEGACOMPLETED MERCURYCOMPLETED PLUTOCOMPLETED
+                      NEPTUNECOMPLETED LIBRACOMPLETED MARSCOMPLETED
+                need T lose it
+                note "Now would be a good time to save the game..." ;
+
+        task "(Cast Spell)" tag CastSpell_T
+                cmd none
+                in Cottage_R
+                need Coconut_I Honey_I DeadSkink_I Garlic_I
+                after ListenToMagpie_T;
+        task CastSpell_T after MoveRingToLibra_T;
+        task PutSkinkInCauldron_T after CastSpell_T;
+        task PutGarlicInCauldron_T after CastSpell_T;
+        task PutCoconutInCauldron_T after CastSpell_T;
+        task PutHandInCauldron_T after CastSpell_T;
+        ### WABE TASK TWEAKS
+        ########################################################################
+
+
+# THE WABE
+################################################################################
+
+################################################################################
+# MARS
+map "MARS (Nagasaki)";
+room "Thin Air" tag ThinAir_R
+        style TOADSTOOL;
+task "Open Umbrella"
+        need Umbrella_I
+        drop all except Wristwatch_I CreditCard_I in Playground_R
+        note "You drop everything you're carrying when you land"
+        goto Playground_R;
+room "Playground" tag Playground_R
+        dir s from ThinAir_R nolink
+        exit s n ne se e;
+task "Wait" note "Wait for girl"
+        need Umbrella_I;
+task "Give Umbrella to Girl" tag GiveUmbrellaToGirl_T
+        after last
+        need Umbrella_I lose it;
+room "Shelter" tag Shelter_R
+        after GiveUmbrellaToGirl_T
+        dir e from Playground_R;
+item "Spade" tag Spade_I
+        score 1;
+item "Paper Bird" tag PaperBird2_I
+        hidden;
+task "Give Paper to Girl" tag GivePaperToGirl_T
+        score 3
+        need PieceOfPaper_I lose it
+        give PaperBird2_I;
+task "Sit on Bird" tag SitOnBird_T
+        in Playground_R
+        need PaperBird2_I
+        goto ThinAir_R;
+task "Exit Mars" tag MARSCOMPLETED
+        in ThinAir_R
+        cmd "Enter Door"
+        need PaperBird2_I lose it
+        goto Moor_R;
+
+
+# MARS
+################################################################################
+
+################################################################################
+# LIBRA
+map "LIBRA (Siberia)";
+room "Platform" tag Platform_R
+        style TOADSTOOL
+        exit s;
+room "Under Platform" tag UnderPlatform_R
+        dir s from Platform_R go down
+        exit n ne e se s sw w nw;
+room "Tundra" tag TundraSW_R
+        exit n ne e sw
+        dir sw from UnderPlatform_R;
+room "Tundra" tag TundraNE_R
+        exit s sw w ne
+        dir ne from UnderPlatform_R;
+room "Cliff Edge" tag CliffEdge_R
+        dir ne from TundraNE_R;
+item "Fissure" tag Fissure_I ;
+task "Examine Fissure" tag ExamineFissure_T
+        note "Reveals trapped lemming";
+item "Lemming" tag Lemming_I
+        hidden in CliffEdge_R after ExamineFissure_T;
+task "Get Lemming" tag GetLemming_T
+        need Birdcage_I
+        cmd "Open Cage"
+        cmd "Get Lemming"
+        cmd "Put Lemming in Cage"
+        cmd "Close Cage"
+        score 1
+        give Lemming_I;
+item Birdcage_I keep with Lemming_I;
+task "Exit Libra" tag LIBRACOMPLETED
+        in Platform_R
+        need Lemming_I
+        cmd "Enter Door"
+        goto HerbGarden_R;
+
+# LIBRA
+################################################################################
+
+################################################################################
+# NEPTUNE
+map "NEPTUNE (Eniwetok Atoll, Hawaii)";
+room "Scaffold" tag Scaffold_R
+        style TOADSTOOL;
+
+room "Bottom of Scaffold" tag BottomOfScaffold_R
+        dir se go d;
+item "Box";
+task "Open Box" tag OpenNeptuneBox_T
+        note "Reveals Toggle Switch and Red Button";
+task "Press Button" tag PressButton_T
+        after OpenNeptuneBox_T
+        note "Opens Sliding Doors to S";
+task "Press Switch" tag PressSwitch_T
+        after OpenNeptuneBox_T
+        note "Turns on Loudspeaker";
+
+room "South Beach" tag SouthBeach_R
+        after PressButton_T
+        dir s;
+
+room "East Beach" tag EastBeach_R
+        dir ne;
+
+room "North Beach" tag NorthBeach_R
+        dir nw;
+
+room "West Beach" tag WestBeach_R
+        dir sw
+        link SouthBeach_R;
+task "Examine Islet" tag ExamineIslet_T
+        note "Reveals Coconut";
+task "Wait for Fin" tag WaitForFin_T
+        after ExamineIslet_T;
+task "Examine Fin" tag ExamineFin_T
+        after WaitForFin_T
+        note "It's a Dolphin!";
+task "Wait for Tide" tag WaitForTide_T
+        after ExamineFin_T
+        note "\"The coconut floats away from the distant islet on the rising tide.\"";
+task "Point to Coconut" tag PointToCoconut_T
+        note "\"The dolphin sees the floating coconut, snatches it out of the lagoon and tosses it into the sand at your feet.\""
+        after WaitForTide_T;
+task "Get Coconut" tag GetCoconut_T
+        after PointToCoconut_T
+        give Coconut_I;
+
+room "Tiny Islet"
+        dir w nolink;
+
+item "Coconut" tag Coconut_I
+        score 3;
+
+task "Exit Neptune" tag NEPTUNECOMPLETED
+        in Scaffold_R
+        cmd "Enter Door"
+        goto Mesa_R;
+
+# NEPTUNE
+################################################################################
+
+################################################################################
+# PLUTO
+map "PLUTO (Underground test site)";
+room "Underground" tag UndergroundE_R
+        style TOADSTOOL
+        exit w;
+item "Lantern" tag Lantern_I
+        score 1;
+
+room "Underground" tag Underground_R
+        dir w from UndergroundE_R
+        exit e w;
+item "Walkie-Talkie" tag WalkieTalkie_I
+        keep
+        score 1;
+task "Turn Lantern On" tag TurnLanternOn_T
+        need Lantern_I;
+task "Drop Lantern" tag DropLantern_T
+        after TurnLanternOn_T
+        need Lantern_I drop it until PutSplinterInCrevice_T;
+
+room "Underground" tag UndergroundW_R
+        dir w from Underground_R
+        exit e;
+item "Crevice" tag Crevice_I ;
+task "Put Splinter in Crevice" tag PutSplinterInCrevice_T
+        in UndergroundW_R
+        need Splinter_I lose it;
+item "Skink" tag Skink_I
+        note "Put Skink in Pocket or it will escape"
+        after DropLantern_T PutSplinterInCrevice_T
+        score 3;
+task "Exit Pluto" tag PLUTOCOMPLETED
+        in UndergroundE_R
+        cmd "Enter Door"
+        goto Ossuary_R;
+
+# PLUTO
+################################################################################
+
+################################################################################
+# MERCURY
+map "MERCURY (Outer Space)";
+room "Earth Orbit" tag EarthOrbit_R
+        style TOADSTOOL
+        need Bubble_I
+        note "Bubble freezes around you";
+task "Examine Moon"
+        note "\"The moon is a delicate crescent, hovering just above the horizon.\"";
+item "Dead Skink" tag DeadSkink_I hidden after KillSkink_T;
+task "Kill Skink" tag KillSkink_T
+        need Skink_I lose it
+        give DeadSkink_I
+        after ListenToMagpie_T
+        score 3
+        note "Take skink out of pocket first";
+task "(Wait For Satellite)" tag WaitForSatellite_T
+        need MetalLump_I
+        cmd none
+        note "Metal lump is magnetic; anchors you to satellite"
+        note "Wait until \"The white door is very close now\"";
+task "Exit Mercury" tag MERCURYCOMPLETED
+        follow WaitForSatellite_T
+        need SilverAxe_I
+        need Bubble_I lose it
+        goto Waterfall_R
+        cmd "Break Bubble With Axe";
+# MERCURY
+################################################################################
+
+
+################################################################################
+# ALPHA
+map "ALPHA (Trinity Site, New Mexico)";
+
+room "Shack" tag Shack_R
+        style TOADSTOOL;
+item "Book" tag Book_I ;
+task "Open Book" tag OpenBook_T
+        note "Reveals Cardboard";
+item "Slip of Cardboard" tag SlipOfCardboard_I
+        score 1
+        hidden after OpenBook_T;
+task "Examine Diagram" tag ExamineDiagram_T
+        score 3
+        need SlipOfCardboard_I;
+task "Wait for quiet" tag WaitForQuiet_T
+        in Shack_R
+        note "\"You hear a motor ... Then all is still.\"";
+
+task "Pull Chain" tag PullChain_T
+        in Shack_R
+        note "turns lightbulb on"
+        follow DropBagOfCrumbs_T;
+task "Unscrew Box" tag UnscrewBox_T
+        in Shack_R
+        score 3
+        need Screwdriver_I
+        after PullChain_T;
+task "Cut XXX Wire" tag CutXXXWire_T
+        need Knife_I
+        need SlipOfCardboard_I
+        after UnscrewBox_T
+        score 5
+        note "Wait for sequencer to take over"
+        note "where the colour corresponds to the line mentioned when the breaker was pulled"
+        note "refer to diagram on slip of cardboard"
+        goto PalaceGate_R;
+task "FINISH" tag FINISH_T
+        in LancasterGate_R
+        follow CutXXXWire_T
+        cmd "Wait..."
+        note "\"All prams lead to Kensington Gardens\""
+        finish;
+
+
+room "Tower Platform" tag TowerPlatform_R
+        dir w from Shack_R;
+
+room "Tower Landing" tag TowerLanding_R
+        style CONNECT
+        exit s go down
+        dir s from TowerPlatform_R go down;
+
+
+room "North Of Tower" tag NorthOfTower_R
+        exit e se s sw w
+        dir s from TowerLanding_R
+        nolink;
+
+room "Base Of Tower" tag BaseOfTower_R
+        style CONNECT
+        exit n ne e se s sw w nw
+        dir s from NorthOfTower_R;
+join BaseOfTower_R to TowerLanding_R go up;
+item "Ruby" tag Ruby_I
+        score 1
+        in BaseOfTower_R;
+task "Put Emerald in Green Boot" tag PutEmeraldInGreenBoot_T
+        in any
+        score 1
+        need Emerald_I lose it
+        need GreenBoot_I;
+task "Put Ruby in Red Boot" tag PutRubyInRedBoot_T
+        in any
+        score 1
+        need Ruby_I lose it
+        need RedBoot_I;
+item "Locked Box" tag LockedBox_I ;
+task "Unlock Box" tag UnlockBox_T
+        score 1
+        need Key_I;
+task "Open Breaker" tag OpenBreaker_T
+        need SlipOfCardboard_I
+        score 1
+        after UnlockBox_T
+        cmd "Look In Box"
+        cmd "Examine Panel"
+        cmd "Open Breaker"
+        note "\"... Ask the kid if he reconnected the XXX line ...\""
+        note "refer to slip of cardboard for colour of XXX";
+task "Close Breaker" tag CloseBreaker_T
+        follow OpenBreaker_T
+        score 1
+        note "\"If it dies again before the sequencer takes over, we're gonna have to scrub.\"";
+
+
+room "Northeast of Tower" tag NortheastOfTower_R
+        exit s sw w
+        dir ne from BaseOfTower_R
+        link NorthOfTower_R;
+room "East of Tower" tag EastOfTower_R
+        exit n nw w sw s
+        dir e from BaseOfTower_R
+        link NorthOfTower_R NortheastOfTower_R;
+room "Shallow Crater" tag ShallowCrater_R
+        exit n nw w se
+        dir se from BaseOfTower_R
+        link EastOfTower_R;
+room "South of Tower" tag SouthOfTower_R
+        exit n ne e s w nw
+        dir s from BaseOfTower_R
+        link ShallowCrater_R EastOfTower_R;
+room "Southwest Of Tower" tag SouthwestOfTower_R
+        exit n ne e sw
+        dir sw from BaseOfTower_R
+        link SouthOfTower_R;
+room "West Of Tower" tag WestOfTower_R
+        exit n ne e se s
+        dir w from BaseOfTower_R
+        link SouthOfTower_R SouthwestOfTower_R NorthOfTower_R;
+room "Northwest of Tower" tag NorthwestOfTower_R
+        exit s se e nw
+        dir nw from BaseOfTower_R
+        link NorthOfTower_R WestOfTower_R;
+
+room "Paved Road" tag PavedRoad1_R
+        dir nw from NorthwestOfTower_R;
+room "Paved Road (Able)" tag PavedRoad2_R
+        dir nw;
+task "Open Jeep Door" tag OpenJeepDoor_T ;
+room "Jeep" tag Jeep_R dir e go in after OpenJeepDoor_T;
+item "Wallet" tag Wallet_I ;
+item "Radio" tag Radio_I ;
+task "Examine Radio Dial" tag ExamineRadioDial_T
+        score 3
+        note "\"... Right now it's set to XX\"";
+task "Tune Walkie Talkie to XX" tag TuneWalkieTalkieToXX_T
+        score 3
+        need WalkieTalkie_I
+        after ExamineRadioDial_T;
+
+
+room "Paved Road" tag PavedRoad3_R
+        dir sw from SouthwestOfTower_R;
+room "Crossroads" tag Crossroads_R dir sw;
+room "Outside Blockhouse (Pittsburgh)" tag OutsideBlockhouse_R
+        dir sw from Crossroads_R;
+task "Drop Bag of Crumbs" tag DropBagOfCrumbs_T
+        note "... wait for roadrunner to sit on dog's head"
+        note "Roadrunner will divert guards and spotlight"
+        after OpenBreaker_T
+        need BagOfCrumbs_I drop it;
+
+room "Paved Road" tag PavedRoad4_R
+        exit se
+        dir se from Crossroads_R;
+
+room "Paved Road" tag PavedRoad5_R
+        dir s sw s from SouthOfTower_R;
+
+room "Paved Road" tag PavedRoad6_R
+        dir s from PavedRoad5_R
+        link PavedRoad4_R;
+
+room "Behind The Shed (Baker)" tag BehindTheShed_R
+        dir s from PavedRoad6_R;
+task "Examine Shelter with Binoculars" tag ExamineShelterWithBinoculars_T
+        score 3
+        note "Reveals key"
+        need Binoculars_I;
+task "Point at Key" tag PointAtKey_T
+        note "The roadrunner fetches the key"
+        score 3
+        after ExamineShelterWithBinoculars_T;
+item "Key" tag Key_I
+        score 1
+        hidden after PointAtKey_T;
+
+room "RANCH AREA"
+        style CONNECT
+        dir se from ShallowCrater_R ;
+
+map "ALPHA - RANCH AREA";
+room "Northwest Of Ranch" tag NorthwestOfRanch_R
+        style CONNECT
+        after TuneWalkieTalkieToXX_T
+        exit e se s nw;
+join ShallowCrater_R to NorthwestOfRanch_R go se;
+task "Open Gate" tag OpenGate_T ;
+
+room "Back Yard" tag BackYard_R
+        exit nw e s
+        dir se 2 from NorthwestOfRanch_R;
+room "Hallway" tag Hallway_R
+        exit n e s w
+        dir s 3 from BackYard_R;
+task "Open Door" tag OpenKitchenDoor_T ;
+room "Southwest Yard" tag SouthwestYard_R
+        exit n e sw
+        dir s from Hallway_R;
+room "Southwest Of Ranch" tag SouthwestOfRanch_R
+        exit n ne e
+        link NorthwestOfRanch_R
+        dir sw 2 from SouthwestYard_R;
+
+room "Icehouse" tag Icehouse_R
+        dir w from Hallway_R;
+
+room "Kitchen" tag Kitchen_R
+        exit n w e
+        dir e from Hallway_R after OpenKitchenDoor_T;
+item "Knife" tag Knife_I
+        score 1
+        in Kitchen_R;
+
+room "Northwest Room" tag NorthwestRoom_R
+        exit n e s
+        dir n 2 from Kitchen_R;
+
+room "Spare Room" tag SpareRoom_R
+        exit n e s w
+        link BackYard_R
+        dir n from NorthwestRoom_R;
+
+room "Bathroom" tag Bathroom_R
+        dir n from SpareRoom_R;
+
+room "Bedroom" tag Bedroom_R
+        dir e from SpareRoom_R;
+
+room "Assembly Room" tag AssemblyRoom_R
+        exit n e s w
+        dir e 2 from NorthwestRoom_R;
+item "Snake" tag Snake_I in AssemblyRoom_R;
+item "Workbench" tag Workbench_I ;
+task "Search Paper" tag SearchPaper_T
+        after OpenClosetDoor_T;
+item "Screwdriver" tag Screwdriver_I
+        hidden after SearchPaper_T;
+task "Open Front Door" tag OpenFrontDoor_T
+        need Screwdriver_I;
+
+room "Closet" tag Closet_R
+        dir n 2 from AssemblyRoom_R;
+task "Close Door" tag CloseClosetDoor_T;
+task "Open Cage" tag ReleaseLemming_T
+        need Birdcage_I
+        follow CloseClosetDoor_T
+        note "Releases lemming";
+task "Open Door" tag OpenClosetDoor_T
+        score 3
+        follow ReleaseLemming_T;
+
+room "Southeast Room" tag SoutheastRoom_R
+        exit n e w
+        link Kitchen_R
+        dir s 2 from AssemblyRoom_R;
+
+room "Front Deck" tag FrontDeck_R
+        exit n e s sw nw
+        dir e se from AssemblyRoom_R after OpenFrontDoor_T;
+link SoutheastRoom_R to FrontDeck_R dir e ne;
+
+room "Southeast Yard" tag SoutheastYard_R
+        link SouthwestYard_R
+        exit n se w
+        dir s 2 from FrontDeck_R;
+
+room "Northeast Yard" tag NortheastYard_R
+        link Bedroom_R
+        dir n 2 from FrontDeck_R;
+
+room "Front Yard" tag FrontYard_R
+        exit n ne se s w
+        dir e 2 from FrontDeck_R;
+
+room "Northeast Of Ranch" tag NortheastOfRanch_R
+        exit e w s
+        link NorthwestOfRanch_R
+        dir n 4 from FrontYard_R;
+
+room "Southeast Of Ranch" tag SoutheastOfRanch_R
+        exit n e w nw
+        link SoutheastYard_R SouthwestOfRanch_R
+        dir s 4 from FrontYard_R;
+
+
+room "South Of Reservoir" tag SouthOfReservoir_R
+        exit n ne w nw
+        link SoutheastOfRanch_R
+        dir se s s se from FrontYard_R;
+
+room "North Of Reservoir" tag NorthOfReservoir_R
+        exit w sw se
+        link NortheastOfRanch_R
+        dir ne n n ne from FrontYard_R;
+
+room "Edge Of Reservoir" tag EdgeOfReservoir_R
+        dir n 2 from SouthOfReservoir_R;
+task "Drop All" tag DropAll_T
+        in EdgeOfReservoir_R
+        note "Drop everything you're carrying"
+        drop Lantern_I until GetBinoculars_T;
+task "Get All"
+        note "Pick up everything you dropped"
+        need Binoculars_I;
+
+room "Reservoir" tag Reservoir_R
+        dir n 2 from EdgeOfReservoir_R;
+
+room "Underwater" tag Underwater_R
+        dir n 2 from Reservoir_R go down;
+item "Binoculars" tag Binoculars_I
+        hidden after GetBinoculars_T
+        note "Need LIGHT"
+        score 1
+        need Lantern_I;
+
+room "Under The Windmill" tag UnderTheWindmill_R
+        exit n nw sw
+        dir ne n ne from SouthOfReservoir_R;
+link UnderTheWindmill_R to NorthOfReservoir_R
+        dir nw n n n nw;
+
+room "Windmill" tag Windmill_R
+        dir n 2 from UnderTheWindmill_R go up;
+item "Binoculars";
+task "Get Binoculars" tag GetBinoculars_T
+        after DropAll_T
+        goto Reservoir_R;
+
+# ALPHA
+################################################################################
+
+# map "TESTS";
+# task "TESTS"
+#         in any
+#         goto ControlRoom_R;
+# room "Control Room" tag ControlRoom_R exit s;
+# task "Enable Room 1" tag EnableRoom1_T;
+# task "Enable Room 2" tag EnableRoom2_T after LeaveRoom1_T;
+# task "Enable Room 3" tag EnableRoom3_T after LeaveRoom2_T;
+# room "Room0" tag Room0_R dir s from ControlRoom_R;
+# task "Enter Room 1" tag EnterRoom1_T after EnableRoom1_T goto Room1_R;
+# task "Enter Room 2" tag EnterRoom2_T after EnableRoom2_T goto Room2_R;
+# task "Enter Room 3" tag EnterRoom3_T after EnableRoom3_T goto Room3_R;
+# room "Room1" tag Room1_R nopath dir sw from Room0_R ;
+# item "Token1" tag Token1_I;
+# task "Leave Room 1" tag LeaveRoom1_T goto Room0_R;
+# room "Room2" tag Room2_R nopath dir s from Room0_R;
+# item "Token2" tag Token2_I;
+# task "Leave Room 2" tag LeaveRoom2_T goto Room0_R;
+# room "Room3" tag Room3_R nopath dir se from Room0_R;
+# item "Token3" tag Token3_I;
+# task "Leave Room 3" tag LeaveRoom3_T goto Room0_R;
+# task "FINISH" tag FINISH
+#         finish
+#         in ControlRoom_R
+#         need Token1_I Token2_I Token3_I;
