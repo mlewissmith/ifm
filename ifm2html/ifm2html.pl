@@ -153,44 +153,39 @@ my %ifmdata;
                 next unless $line;
                 my ($field, $value) = split(/\s*:\s*/, $line, 2);
 
-                given($field) {
-                    when("title") {
-                        $ifmdata{title} = $value;
-                    }
-
-                    when("room") {
-                        $current_room = $value;
-                        $ifmdata{rooms}{$current_room}{map} = $map;
-                        $ifmdata{rooms}{$current_room}{sortorder} = $sortorder++;
-                    }
-                    when("name") {
-                        $ifmdata{rooms}{$current_room}{name} = $value;
-                    }
-
-                    when("note") {
-                        push @{$ifmdata{rooms}{$current_room}{note}}, $value;
-                    }
-
-                    when(/(link)|(join)/) {
-                        $current_link = $value;
-                        my ($this_room, $that_room) = split(/\s+/,$current_link);
-                        $ifmdata{rooms}{$this_room}{link}{$that_room}++;
-                    }
-                    when("oneway") {
-                        my ($this_room, $that_room) = split(/\s+/,$current_link);
-                        $ifmdata{rooms}{$this_room}{link}{$that_room}--;
-                    }
-
-                    when(/^(exit)|(go)|(height)|(lpos)|(rpos)|(section)|(width)$/) {
-                        # do nothing
-                    }
-
-                    default {
-                        dprint "Unknown map field $field";
-                    }
+                if ($field eq "title") {
+                    $ifmdata{title} = $value;
                 }
-            }
+                elsif ($field eq "room") {
+                    $current_room = $value;
+                    $ifmdata{rooms}{$current_room}{map} = $map;
+                    $ifmdata{rooms}{$current_room}{sortorder} = $sortorder++;
+                }
+                elsif ($field eq "name") {
+                    $ifmdata{rooms}{$current_room}{name} = $value;
+                }
+                elsif ($field eq "note") {
+                    push @{$ifmdata{rooms}{$current_room}{note}}, $value;
+                }
+                elsif ($field =~ /^(link)|(join)$/) {
+                    $current_link = $value;
+                    my ($this_room, $that_room) = split(/\s+/,$current_link);
+                    $ifmdata{rooms}{$this_room}{link}{$that_room}++;
+                }
+                elsif ($field eq "oneway") {
+                    my ($this_room, $that_room) = split(/\s+/,$current_link);
+                    $ifmdata{rooms}{$this_room}{link}{$that_room}--;
+                }
+                elsif ($field =~ /^(exit)|(go)|(height)|(lpos)|(rpos)|(section)|(width)$/) {
+                    # do nothing
+                }
+                else {
+                    dprint "Unknown map field $field";
+                }
+
+            } # while (<IFM>)
             close IFM;
+
             # reverse links and joins
             for my $this_room (sort keys %{$ifmdata{rooms}}) {
                 for my $that_room (sort keys %{$ifmdata{rooms}{$this_room}{link}}) {
@@ -199,10 +194,11 @@ my %ifmdata;
                     }
                 }
             }
+
         } else {
             die "$ifmcmd: $!";
         }
-    }
+    } # for my $map (sort keys %{$ifmdata{maps}})
 }
 
 ########################################
@@ -212,6 +208,7 @@ my %ifmdata;
     my $sortorder = 0;
     my $ifmcmd = qq($ifmexe -f raw -t $inputfile);
     dprint $ifmcmd;
+
     if (open IFM, "$ifmcmd |") {
         my $current_task;
         while (<IFM>) {
@@ -220,47 +217,39 @@ my %ifmdata;
             next unless $line;
             my ($field, $value) = split(/\s*:\s*/, $line, 2);
 
-            given($field) {
-                when("task") {
-                    $current_task = $value;
-                    $ifmdata{tasks}{$current_task}{sortorder} = $sortorder++;
-                }
-
-                when(/^(type)|(name)|(score)$/) {
-                    $ifmdata{tasks}{$current_task}{$field} = $value;
-                }
-
-                when("room") {
-                    $ifmdata{tasks}{$current_task}{$field} = $value;
-                    push @{$ifmdata{rooms}{$value}{tasks}}, $current_task;
-                }
-
-                when("note") {
-                    push @{$ifmdata{tasks}{$current_task}{note}}, $value;
-                }
-
-                when("cmd") {
-                    push @{$ifmdata{tasks}{$current_task}{cmd}}, $value;
-                }
-
-                when("get") {
-                    $ifmdata{tasks}{$current_task}{get} = $value;
-                }
-
-                when("give") {
-                    push @{$ifmdata{tasks}{$current_task}{give}}, $value;
-                }
-
-                when("tag") {
-                    # do nothing
-                }
-
-                default {
-                    dprint "Unknown task field $field";
-                }
+            if ($field eq "task") {
+                $current_task = $value;
+                $ifmdata{tasks}{$current_task}{sortorder} = $sortorder++;
             }
-        }
+            elsif ($field =~ /^(type)|(name)|(score)$/) {
+                $ifmdata{tasks}{$current_task}{$field} = $value;
+            }
+            elsif ($field eq "room") {
+                $ifmdata{tasks}{$current_task}{$field} = $value;
+                push @{$ifmdata{rooms}{$value}{tasks}}, $current_task;
+            }
+            elsif ($field eq "note") {
+                push @{$ifmdata{tasks}{$current_task}{note}}, $value;
+            }
+            elsif ($field eq "cmd") {
+                push @{$ifmdata{tasks}{$current_task}{cmd}}, $value;
+            }
+            elsif ($field eq "get") {
+                $ifmdata{tasks}{$current_task}{get} = $value;
+            }
+            elsif ($field eq "give") {
+                push @{$ifmdata{tasks}{$current_task}{give}}, $value;
+            }
+            elsif ($field eq "tag") {
+                # do nothing
+            }
+            else {
+                dprint "Unknown task field $field";
+            }
+
+        } # while(<IFM>)
         close IFM;
+
     } else {
         die "$ifmcmd: $!";
     }
@@ -273,6 +262,7 @@ my %ifmdata;
     my $sortorder = 0;
     my $ifmcmd = qq($ifmexe -f raw -i $inputfile);
     dprint $ifmcmd;
+
     if (open IFM, "$ifmcmd |") {
         my $current_item;
         while (<IFM>) {
@@ -281,52 +271,48 @@ my %ifmdata;
             next unless $line;
             my ($field, $value) = split(/\s*:\s*/, $line, 2);
 
-            given($field) {
-                when("item") {
-                    $current_item = $value;
-                    $ifmdata{items}{$current_item}{sortorder} = $sortorder++;
-                }
-                when(/^(name)|(score)|(hidden)$/) {
-                    $ifmdata{items}{$current_item}{$field} = $value;
-                }
-                when("room") {
-                    $ifmdata{items}{$current_item}{$field} = $value;
-                    push @{$ifmdata{rooms}{$value}{items}}, $current_item;
-                }
-
-                when("note") {
-                    push @{$ifmdata{items}{$current_item}{$field}}, $value;
-                }
-                when("after") {
-                    push @{$ifmdata{items}{$current_item}{$field}}, $value;
-                    if (defined $ifmdata{tasks}{$value}) {
-                        push @{$ifmdata{tasks}{$value}{toget}}, $current_item;
-                    }
-                }
-                when("needed") {
-                    push @{$ifmdata{items}{$current_item}{$field}}, $value;
-                    if (defined $ifmdata{tasks}{$value}) {
-                        push @{$ifmdata{tasks}{$value}{needs}}, $current_item;
-                    }
-                }
-
-                when("move") {
-                    my ($move_from, $move_to) = split(/\s+/,$value);
-                    push @{$ifmdata{items}{$current_item}{move}{$move_from}}, $move_to;
-                    push @{$ifmdata{rooms}{$move_from}{need}{$move_to}}, $current_item;
-                }
-
-                when(/^(tag)|(leave)|(enter)$/) {
-                    # do nothing
-                }
-
-                default {
-                    dprint "Unknown item field $field";
+            if ($field eq "item") {
+                $current_item = $value;
+                $ifmdata{items}{$current_item}{sortorder} = $sortorder++;
+            }
+            elsif ($field =~ /^(name)|(score)|(hidden)$/) {
+                $ifmdata{items}{$current_item}{$field} = $value;
+            }
+            elsif ($field eq "room") {
+                $ifmdata{items}{$current_item}{$field} = $value;
+                push @{$ifmdata{rooms}{$value}{items}}, $current_item;
+            }
+            elsif ($field eq "note") {
+                push @{$ifmdata{items}{$current_item}{$field}}, $value;
+            }
+            elsif ($field eq "after") {
+                push @{$ifmdata{items}{$current_item}{$field}}, $value;
+                if (defined $ifmdata{tasks}{$value}) {
+                    push @{$ifmdata{tasks}{$value}{toget}}, $current_item;
                 }
             }
-        }
+            elsif ($field eq "needed") {
+                push @{$ifmdata{items}{$current_item}{$field}}, $value;
+                if (defined $ifmdata{tasks}{$value}) {
+                    push @{$ifmdata{tasks}{$value}{needs}}, $current_item;
+                }
+            }
+            elsif ($field eq "move") {
+                my ($move_from, $move_to) = split(/\s+/,$value);
+                push @{$ifmdata{items}{$current_item}{move}{$move_from}}, $move_to;
+                push @{$ifmdata{rooms}{$move_from}{need}{$move_to}}, $current_item;
+            }
+            elsif ($field =~ /^(tag)|(leave)|(enter)$/) {
+                # do nothing
+            }
+            else {
+                dprint "Unknown item field $field";
+            }
+        } # while (<IFM>)
         close IFM;
-    } else {
+
+    } # if (open IFM)
+    else {
         die "$ifmcmd: $!";
     }
 }
