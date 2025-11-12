@@ -1,10 +1,10 @@
 ## usage:
 ##   make ifmfile=mapfile.ifm TARGET
 .PHONY: default all
-default: map text raw
-all: default pdfmap html
+default: map text
+all: default raw html dot
 
-ifndef src
+ifndef ifm
 $(warning Usage: 'make ifm=FILE.ifm TARGET')
 $(error 'ifm' not set)
 endif
@@ -15,41 +15,42 @@ PAPERSIZE = a4
 
 ################################################################################
 # PRIMARY TARGETS
-PSMAPFILE = $(BASENAME).map.ps
-PDFMAPFILE = $(BASENAME).map.pdf
+PS_MAPFILE = $(BASENAME).map.ps
+PDF_MAPFILE = $(BASENAME).map.pdf
 
-TASKFILE = $(BASENAME).tasks.txt
-ITEMFILE = $(BASENAME).items.txt
+TEXT_TASKFILE = $(BASENAME).tasks.txt
+TEXT_ITEMFILE = $(BASENAME).items.txt
 
-RAWMAPFILE = $(BASENAME).map.raw
-RAWTASKFILE = $(BASENAME).tasks.raw
-RAWITEMFILE = $(BASENAME).items.raw
+RAW_MAPFILE = $(BASENAME).map.raw
+RAW_TASKFILE = $(BASENAME).tasks.raw
+RAW_ITEMFILE = $(BASENAME).items.raw
 
-HTMLINDEXFILE = $(BASENAME)-index.html
+HTML_INDEXFILE = $(BASENAME)-index.html
 
-PSDOTFILE = $(BASENAME).dot.ps
-PDFDOTFILE = $(BASENAME).dot.pdf
+PS_DOTFILE = $(BASENAME).dot.ps
+PDF_DOTFILE = $(BASENAME).dot.pdf
 
 IFMOPTS =
 # IFMOPTS = "-S verbose"
 
 .PHONY: map tasks items text dot pdfmap pdfdot rawmap rawtasks rawitems raw
 
-map: $(PSMAPFILE)
-tasks: $(TASKFILE)
-items: $(ITEMFILE)
-text:  $(TASKFILE) $(ITEMFILE)
+map: $(PS_MAPFILE)
+pdfmap: $(PDF_MAPFILE)
 
-rawmap: $(RAWMAPFILE)
-rawtasks: $(RAWTASKFILE)
-rawitems: $(RAWITEMFILE)
-raw: $(RAWITEMFILE) $(RAWTASKFILE) $(RAWMAPFILE)
+tasks: $(TEXT_TASKFILE)
+items: $(TEXT_ITEMFILE)
+text:  $(TEXT_TASKFILE) $(TEXT_ITEMFILE)
 
-html: $(HTMLINDEXFILE)
+rawmap: $(RAW_MAPFILE)
+rawtasks: $(RAW_TASKFILE)
+rawitems: $(RAW_ITEMFILE)
+raw: $(RAW_ITEMFILE) $(RAW_TASKFILE) $(RAW_MAPFILE)
 
-pdfmap: $(PDFMAPFILE)
-dot: $(PSDOTFILE)
-pdfdot: $(PDFDOTFILE)
+html: $(HTML_INDEXFILE)
+
+dot: $(PS_DOTFILE)
+pdfdot: $(PDF_DOTFILE)
 
 %.tasks.txt: %.ifm
 	@$(REPORT)
@@ -94,20 +95,22 @@ pdfdot: $(PDFDOTFILE)
 # CLEANUP
 .PHONY: clean
 clean:
-	@rm -fv $(PDFMAPFILE) $(PSMAPFILE)
-	@rm -fv $(TASKFILE) $(ITEMFILE)
-	@rm -fv $(RAWTASKFILE) $(RAWITEMFILE) $(RAWMAPFILE)
-	@rm -fv $(PSDOTFILE) $(PDFDOTFILE)
+	@rm -fv $(PDF_MAPFILE) $(PS_MAPFILE)
+	@rm -fv $(TEXT_TASKFILE) $(TEXT_ITEMFILE)
+	@rm -fv $(RAW_TASKFILE) $(RAW_ITEMFILE) $(RAW_MAPFILE)
+	@rm -fv $(PS_DOTFILE) $(PDF_DOTFILE)
 
 ################################################################################
 .PHONY: help
 help:
 	@echo
 	@echo "TARGETS"
-	@echo "   (pdf)map"
+	@echo "   map"
 	@echo "   tasks"
 	@echo "   items"
-	@echo "   (pdf)dot"
+	@echo "   html"
+	@echo "   raw"
+	@echo "   dot"
 	@echo "   clean"
 	@echo
 
