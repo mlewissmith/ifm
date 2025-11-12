@@ -120,19 +120,15 @@ my %ifmdata;
 ########################################
 # read the map sections; populate $ifmdata{maps}
 {
-    my $ifmcmd = qq($ifmexe --show maps $inputfile);
+    my $ifmcmd = qq($ifmexe -f text -m $inputfile);
     dprint $ifmcmd;
     if (open IFM, "$ifmcmd |") {
-        # discard header line
-        <IFM>;
         while (<IFM>) {
+            chomp;
             my $line = $_;
-            chomp $line;
-            my @data = split(/\s+/, $line, 5);
-            $ifmdata{maps}{$data[0]}{count} = $data[1];
-            $ifmdata{maps}{$data[0]}{width} = $data[2];
-            $ifmdata{maps}{$data[0]}{height} = $data[3];
-            $ifmdata{maps}{$data[0]}{name} = $data[4];
+            if ($line =~ /(\d+)\s+\((.+)\)\s+\(size:.+rooms:.+\):/) {
+                $ifmdata{maps}{$1}{name} = $2;
+            }
         }
         close IFM;
     } else {
