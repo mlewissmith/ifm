@@ -264,7 +264,8 @@ print_map(int dnum, vlist *sections)
             v_iterate(list, j) {
                 link = vl_iter_pval(j);
 
-                if (vh_iget(link, "HIDDEN") && dnum != 5)
+		/* ifm2html: dnum == index of "raw" entry in formats[] above */
+                if (vh_iget(link, "HIDDEN") && dnum != 6)
                     continue;
 
                 if (vh_iget(link, "NOLINK"))
