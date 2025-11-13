@@ -13,8 +13,6 @@ Lorem ipsum dolor sit amet, consectetuer adipiscing elit.
 use strict;
 use warnings;
 use feature qw(say);
-use experimental qw(switch);
-#no if $] >= 5.018, warnings => qw( experimental::smartmatch );
 
 use Cwd qw(getcwd realpath);
 use Data::Dumper; $Data::Dumper::Sortkeys = 1;
