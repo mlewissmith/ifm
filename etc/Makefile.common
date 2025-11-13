@@ -1,6 +1,6 @@
 # Common Makefile stuff.
 
-docdir = $(prefix)/doc
+docdir = $(datadir)/doc
 ifmdocdir = $(docdir)/ifm
 
 OPTIONAL = $(top_srcdir)/etc/missing --run
